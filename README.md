@@ -2,21 +2,49 @@
 
 Private working repo for the `uc-icons` Codex skill.
 
-This repository stores the unpacked Codex skill used to generate, edit, optimize, and export Urban Company icons in the new UC tactile skeuomorphic style. It is intended for Codex only: the skill depends on Codex skill loading, the companion `imagegen` skill, and GPT Image 2 / Image Gen behavior.
+This repository stores the unpacked Codex skill for generating, refining, and exporting Urban Company icons in the new UC tactile skeuomorphic style. It is designed specifically for Codex workflows: the skill relies on Codex skill loading, the companion `imagegen` skill, and GPT Image 2 / Image Gen behavior.
 
-## What It Does
+The skill is strongest when paired with visual references and a compact brief. A useful request usually includes the icon subject, the service or material cue, and any details that must remain stable, such as crop, orientation, character identity, or base-object silhouette.
 
-- Generates new UC-style category icons from a short description and, ideally, attached image references.
-- Edits existing UC icon bases while preserving composition, material finish, crop, and orientation.
-- Exports known service icons from bundled archive assets without regenerating them.
-- Handles people-centric service icons through canonical character bust bases.
-- Normalizes final assets to `1024x768` PNG on a fixed `#f5f5f5` background.
+## Capabilities
 
-The skill works best when the request includes:
+- Generate new UC-style category icons from image references and a short written direction.
+- Edit existing UC icon bases while preserving composition, material finish, crop, lighting, and orientation.
+- Export known service icons from bundled archive assets without unnecessary regeneration.
+- Build people-centric service icons from canonical character bust bases.
+- Normalize final outputs to `1024x768` PNG on UC Grey (Grey 10).
 
-- one or more image references,
-- a short description of the desired object, service, material, or edit,
-- any must-preserve details such as orientation, crop, or existing base identity.
+## Use-Case Results
+
+The examples below show the kind of object language this skill is tuned for: clean silhouettes, soft tactile materials, simplified product detail, and consistent presentation on UC Grey (Grey 10).
+
+<table>
+  <tr>
+    <td align="center"><img src="examples/use-case-results/salad-bowl.jpg" width="180"><br><sub>Food and lifestyle objects</sub></td>
+    <td align="center"><img src="examples/use-case-results/gift-box.jpg" width="180"><br><sub>Promotional and reward icons</sub></td>
+    <td align="center"><img src="examples/use-case-results/tea-glass.jpg" width="180"><br><sub>Glass, liquid, and transparent materials</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="examples/use-case-results/candle-set.jpg" width="180"><br><sub>Grouped product sets</sub></td>
+    <td align="center"><img src="examples/use-case-results/candle-single.jpg" width="180"><br><sub>Single premium objects</sub></td>
+    <td align="center"><img src="examples/use-case-results/dumbbell.jpg" width="180"><br><sub>Fitness and service category objects</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="examples/use-case-results/native-locks.jpg" width="180"><br><sub>Native product-style references</sub></td>
+    <td align="center"><img src="examples/use-case-results/native-ro-water-purifier.jpg" width="180"><br><sub>Appliance and device icons</sub></td>
+    <td align="center"><img src="examples/use-case-results/nail-polish.jpg" width="180"><br><sub>Beauty and grooming products</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="examples/use-case-results/vacuum-cleaner.jpg" width="180"><br><sub>Home service equipment</sub></td>
+    <td align="center"><img src="examples/use-case-results/paint-roller.jpg" width="180"><br><sub>Tools and repair cues</sub></td>
+    <td align="center"><img src="examples/use-case-results/mens-salon-massage.jpg" width="180"><br><sub>Character bust service icons</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="examples/use-case-results/womens-salon-spa.jpg" width="180"><br><sub>Salon and spa character variants</sub></td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
 
 ## Repo Layout
 
@@ -26,9 +54,11 @@ uc-icons/
   agents/openai.yaml               # Codex UI metadata
   scripts/                         # deterministic lookup/export helpers
   references/                      # bundled style, character, and archive assets
+
+examples/use-case-results/         # repo-facing examples for logs and review
 ```
 
-The top-level repo files are for human orientation only. The installable skill is the `uc-icons/` folder.
+The installable skill is the `uc-icons/` folder. Top-level files and examples are for human orientation, review, and progress tracking.
 
 ## Install
 
@@ -64,12 +94,12 @@ python3 uc-icons/scripts/export_skeuo_uc_icon.py \
   --preserve-source
 ```
 
-Expected output: a `1024x768` PNG in `./assets/` with background `#f5f5f5`.
+Expected output: a `1024x768` PNG in `./assets/` on UC Grey (Grey 10).
 
 ## Notes
 
 - This is not a standalone image-generation app.
-- This is not meant for direct use outside Codex.
+- This is not intended for direct use outside Codex.
 - Do not replace GPT Image 2 / Image Gen with placeholder SVG, HTML/CSS, or other image models unless explicitly testing a fallback.
-- Keep generated output assets outside this repo unless they are deliberately being promoted into the skill archive.
+- Keep generated output assets outside this repo unless they are deliberately being promoted into the skill archive or example set.
 - This repo is private and intended as a personal log/update source before later migration into a shared team repo.
