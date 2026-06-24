@@ -1,0 +1,4 @@
+interface:
+  display_name: "UC Icons"
+  short_description: "Generate tactile Urban Company icon PNGs."
+  default_prompt: "Use $uc-icons to generate a 1024x768 icon on #f5f5f5 for: "
