@@ -1,0 +1,7 @@
+*.png binary
+*.zip binary
+*.csv text
+*.md text
+*.py text
+*.yaml text
+
