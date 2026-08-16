@@ -179,3 +179,21 @@ owner approval.
 Rollback boundary: runtime batch instructions, the icon contract, the review rubric,
 and this audit note move together. Generated transfer artifacts remain outside Git and
 require the normal approval gates.
+
+## 2026-08-16 — Office-chair experiment salvage handoff
+
+- Paused the incomplete office-chair material-transfer experiment before further visual
+  review or generation.
+- Accounted for 79 persisted, distinct source masters while retaining the owner's
+  approximate 86-call observation for failed/partial calls without canonical masters.
+- Classified useful outputs as ordinary icons, category curation candidates, or
+  material-only studies; kept rejected and structurally wrong outputs evaluator-only.
+- Recorded a textual failure-rule dictionary because rejected images are not safe or
+  reliable negative visual prompts for Image Gen.
+- Bounded the next basin-mixer approval batch to three initial candidates and no more
+  than one targeted retry per slot. Any reference-transfer gate remains a separate,
+  explicitly approved phase.
+
+Continuation details and local-only artifact paths are recorded in
+`docs/HANDOFF-OFFICE-CHAIR-SALVAGE-2026-08-16.md`. No generated image was staged,
+committed, or promoted; the runtime reference bank remains empty.
