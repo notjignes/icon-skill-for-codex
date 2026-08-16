@@ -40,6 +40,29 @@ class SkillContractTests(unittest.TestCase):
         self.assertTrue(commands)
         self.assertTrue(all("--source" in command for command in commands))
 
+    def test_batch_family_locks_reject_drift_before_export(self):
+        skill_text = (SKILL / "SKILL.md").read_text(encoding="utf-8").lower()
+        contract_text = (SKILL / "references" / "icon-contract.md").read_text(
+            encoding="utf-8"
+        ).lower()
+        rubric_text = (
+            ROOT / "evaluation" / "reference-bank" / "REVIEW-RUBRIC.md"
+        ).read_text(encoding="utf-8").lower()
+
+        for phrase in (
+            "pose/view",
+            "camera angle",
+            "light direction",
+            "texture-density band",
+            "palette roles",
+        ):
+            self.assertIn(phrase, skill_text)
+            self.assertIn(phrase, contract_text)
+            self.assertIn(phrase, rubric_text)
+        self.assertIn("discard it from evaluation", skill_text)
+        self.assertIn("reject and regenerate", contract_text)
+        self.assertIn("discard and regenerate", rubric_text)
+
 
 if __name__ == "__main__":
     unittest.main()

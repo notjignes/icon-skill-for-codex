@@ -167,4 +167,12 @@ Enter improvement mode only when the user explicitly asks to improve, curate, ad
 
 For batches, plan and generate one subject at a time while holding background, light direction, material grammar, simplification, optical scale, and camera rules consistent.
 
+Treat the approved pose/view, camera angle, projection, and canvas placement as hard
+family locks. Hold the lighting direction and softness, texture-density band, material
+finish, and palette roles constant across candidates, transfer arms, and related icons.
+After every generation, compare the result with the active family lock before export or
+staging. If any locked attribute drifts, stop that result, discard it from evaluation,
+and regenerate with an explicit targeted correction; never normalize away a pose,
+camera, lighting, texture, or palette drift during export.
+
 If GPT Image 2 / Image Gen is unavailable after applying the companion skill, say it is unavailable in the current session. Do not fabricate a placeholder or silently switch models.

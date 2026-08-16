@@ -165,3 +165,17 @@ d7872b9967f726cd824e3abd3dbd1995fcc53b3d8749e9cd3f2f9116c0134eb4  uc-icons/refer
 Verdict: release-candidate code is audit-certified for draft-PR review. Installation,
 merge, tag, stable release, and reusable-reference promotion still require explicit
 owner approval.
+
+## 2026-08-16 — Owner-directed family-lock enforcement
+
+- Made pose/view, camera angle, projection, optical scale, and placement hard locks for
+  candidate batches and transfer arms.
+- Locked light direction and softness, texture-density band, material finish, and
+  palette roles so related outputs remain visually coherent.
+- Required drifting outputs to be excluded and regenerated with a targeted correction
+  before export, staging, or blind scoring; export normalization cannot certify or hide
+  family drift.
+
+Rollback boundary: runtime batch instructions, the icon contract, the review rubric,
+and this audit note move together. Generated transfer artifacts remain outside Git and
+require the normal approval gates.

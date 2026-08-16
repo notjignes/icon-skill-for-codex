@@ -21,6 +21,11 @@ independent reviewers must approve the same frozen master and record useful note
 - No external cast/contact/drop/floor shadow, glow, or ambient grounding pool. Internal
   self-shadow, occlusion, and material shading are allowed.
 - No form leakage from generation references.
+- Pose/view, camera angle, projection, optical scale, and canvas placement match the
+  active family lock.
+- Light direction and softness, texture-density band, material finish, and palette
+  roles remain consistent with the family. A drifting run is excluded and regenerated
+  before blind scoring; it is never repaired through export normalization.
 
 Review at full size plus 32, 48, 64, and 96 pixels. Compare in an equal-size row with
 at least six nearby approved icons; also inspect silhouette, grayscale, slight blur,
@@ -43,6 +48,11 @@ The evidence JSON must bind every arm to one shared generation policy: record th
 model, SHA-256 of the prompt template, SHA-256 of the generation configuration, and
 declare `arm_difference: candidate-reference-only`. Changing prompts, models, quality,
 or other settings between arms invalidates the transfer test.
+
+The shared generation policy must also encode the active family locks. Every artifact
+must be checked against those locks before it enters the blinded set. If either arm
+drifts in pose/view, camera, lighting, texture detail, palette roles, optical scale, or
+placement, discard and regenerate that run under the same frozen policy.
 
 Promotion requires:
 

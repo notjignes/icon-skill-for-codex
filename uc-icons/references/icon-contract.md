@@ -35,6 +35,18 @@ Use a true side view for vehicles and side-profile tools. Use slight-top only wh
 - Keep bevels soft and approachable without toy-like exaggeration.
 - Use palette roles: dominant material, secondary material, functional neutral, and an optional recognition accent.
 
+## Family locks and drift handling
+
+- Freeze the approved pose/view, camera angle, projection, optical scale, and canvas
+  placement for a family before generating variants or transfer arms.
+- Freeze light direction and softness, texture-density band, material finish, and
+  palette roles so related outputs read as one family. Subject identity may change;
+  the family rendering grammar may not.
+- Compare every result against the active locks before export, staging, or scoring.
+- Reject and regenerate a drifting result with a targeted correction. Export-time
+  background normalization must never be used to hide pose, camera, lighting, texture,
+  or colour drift.
+
 ## Shadow authority
 
 For a new-from-scratch master:
@@ -59,10 +71,12 @@ Only an explicit skill-improvement request activates candidate handling. Promoti
 2. Exact exposed `#f5f5f5` background and valid path/hash checks.
 3. Correct subject, view, layout, composition, materials, and small-size recognition.
 4. Review against at least six nearby approved peers at full size and 96/64/48/32 px.
-5. Two independent approved visual reviews.
-6. A passed held-out transfer test whose arm means are derived from complete per-run
+5. Pass the active family-lock comparison for pose/view, camera, lighting, texture
+   density, material finish, palette roles, optical scale, and placement.
+6. Two independent approved visual reviews.
+7. A passed held-out transfer test whose arm means are derived from complete per-run
    blind ratings, with no form leakage or critical regression.
-7. Explicit owner approval and note.
+8. Explicit owner approval and note.
 
 Each logical reference is approved for exactly one tested role. A master may back
 multiple role-specific logical records without duplicating its physical PNG. Runtime
