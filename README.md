@@ -1,6 +1,6 @@
 # Icon Skill for Codex
 
-Private working repo for the `uc-icons` Codex skill.
+Working repository and progress log for the `uc-icons` Codex skill.
 
 This repository stores the unpacked Codex skill for generating, refining, and exporting Urban Company icons in the new UC tactile skeuomorphic style. It is designed specifically for Codex workflows: the skill relies on Codex skill loading, the companion `imagegen` skill, and GPT Image 2 / Image Gen behavior.
 
@@ -8,11 +8,13 @@ The skill is strongest when paired with visual references and a compact brief. A
 
 ## Capabilities
 
-- Generate new UC-style category icons from image references and a short written direction.
+- Plan exact exports, controlled base edits, canonical character edits, and genuinely new objects deterministically.
+- Generate new UC-style category icons from approved internal references or request-scoped user references.
 - Edit existing UC icon bases while preserving composition, material finish, crop, lighting, and orientation.
 - Export known service icons from bundled archive assets without unnecessary regeneration.
 - Build people-centric service icons from canonical character bust bases.
-- Normalize final outputs to `1024x768` PNG on UC Grey (Grey 10).
+- Preserve a native high-resolution master and derive a `1024x768` PNG delivery on UC Grey (Grey 10).
+- Keep routine lookup and reference selection silent; reusable-bank promotion remains owner-approved.
 
 ## Use-Case Results
 
@@ -52,37 +54,41 @@ The examples below show the kind of object language this skill is tuned for: cle
 uc-icons/
   SKILL.md                         # Codex skill entrypoint
   agents/openai.yaml               # Codex UI metadata
-  scripts/                         # deterministic lookup/export helpers
-  references/                      # bundled style, character, and archive assets
+  scripts/                         # resolver, planner, exporter, bank and validation tools
+  references/                      # one-copy archive plus logical alias manifests
 
 examples/use-case-results/         # repo-facing examples for logs and review
+evaluation/reference-bank/         # candidates and transfer evidence; never installed
+tests/                             # storage, routing, export, approval and UX regressions
 ```
 
 The installable skill is the `uc-icons/` folder. Top-level files and examples are for human orientation, review, and progress tracking.
 
 ## Install
 
-From this repo, install the skill by copying `uc-icons/` into your Codex skills directory:
+Do not overlay this version onto an older installation: an overlay leaves duplicate
+base/material/character PNGs behind. Validate and atomically replace it with the
+owner-gated updater instead:
 
 ```bash
-mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-cp -R uc-icons "${CODEX_HOME:-$HOME/.codex}/skills/uc-icons"
+python3 scripts/install_compact_skill.py --owner-approved-install
 ```
 
-Restart Codex after installing or updating the skill.
-
-For a private GitHub install, use the Codex skill installer with credentials that can access this repo:
-
-```bash
-python3 install-skill-from-github.py --repo notjignes/icon-skill-for-codex --path uc-icons
-```
+The updater stages and validates a complete copy, moves the old install to
+`~/.codex/backups/skills/`, atomically activates the new tree, validates it again, and
+restores the backup on failure. It never removes the backup automatically. Restart
+Codex and confirm normal operation before deleting that backup.
 
 ## Validation
 
-Validate the skill structure:
+Run the full local suite and compact-package validator:
 
 ```bash
-python3 quick_validate.py uc-icons
+python3 -m pip install -r requirements.txt
+python3 -m unittest discover -s tests -v
+python3 tests/verify_legacy_pixel_equivalence.py
+python3 uc-icons/scripts/validate_uc_icons.py --compact-baseline
+python3 uc-icons/scripts/manage_reference_bank.py validate
 ```
 
 Smoke-test archive export from a workspace:
@@ -96,10 +102,34 @@ python3 uc-icons/scripts/export_skeuo_uc_icon.py \
 
 Expected output: a `1024x768` PNG in `./assets/` on UC Grey (Grey 10).
 
+## v0.2.0-rc.1 architecture
+
+- 73 service identities, 70 base meanings, 72 material meanings, and 11 character
+  names resolve to 72 unchanged high-resolution archive masters.
+- Base, material, and character alias directories contain no duplicate PNG bytes.
+- The compact baseline is about 174.8 MB before new approved reference masters,
+  compared with about 551.3 MB in the previous duplicate-heavy installation.
+- New masters request an opaque `2048x1536` 4:3 PNG when available; smaller valid
+  native results are preserved without upscaling. OpenAI documents arbitrary valid
+  GPT Image 2 sizes and high-fidelity input processing in the
+  [image-generation guide](https://developers.openai.com/api/docs/guides/image-generation).
+- The runtime attaches at most three approved, role-distinct references and abstains
+  when none is compatible. Request-scoped references take precedence and are never
+  learned from automatically.
+- Candidate references stay outside the installed skill. Promotion requires technical
+  success, two independent visual approvals, a passed held-out transfer test with
+  per-run blind ratings and derived arm means, and an explicit owner approval record.
+  Each logical record tests one role; multiple
+  role-specific records may reuse one master SHA/path without duplicating the PNG.
+
+The first expansion wave and frozen confusion/transfer probes are tracked under
+`evaluation/`. No Wave-1 image is approved merely because it appears in the example
+gallery.
+
 ## Notes
 
 - This is not a standalone image-generation app.
 - This is not intended for direct use outside Codex.
 - Do not replace GPT Image 2 / Image Gen with placeholder SVG, HTML/CSS, or other image models unless explicitly testing a fallback.
-- Keep generated output assets outside this repo unless they are deliberately being promoted into the skill archive or example set.
-- This repo is private and intended as a personal log/update source before later migration into a shared team repo.
+- Keep ordinary generated outputs outside this repo. Only explicitly reviewed and owner-approved masters enter the runtime bank.
+- Stable merge/tag, active installed-skill replacement, and reusable-reference promotion remain owner-gated.
