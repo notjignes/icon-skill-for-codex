@@ -20,34 +20,40 @@ Everything else stays on the object path. If a subject mixes an object and a per
 
 ## Style References (primary source)
 
-Canonical gender base images live in `references/characters/base/`. For any male or female character generation, use the closest matching canonical gender + eye-state base as the **base image** in Image Gen edit mode whenever editing is available:
+Canonical character names live in `references/characters/MANIFEST.csv`. Resolve them
+through the planner/registry to their canonical archive masters; do not construct a
+physical `references/characters/...png` path. An exact existing service-character
+variant, or a requested local edit of it, uses that resolved service archive master as
+the edit target so its established identity is preserved. A genuinely new or unlisted
+character variant uses the closest matching canonical gender + eye-state asset as the
+**base image** in Image Gen edit mode.
 
-- `references/characters/base/base-female-eyes-open.png` for female service workers or clients with alert/calm open eyes.
-- `references/characters/base/base-female-eyes-closed.png` for female pampering, spa, massage, rest, or eyes-closed service variants.
-- `references/characters/base/base-male-eyes-open.png` for male service workers or clients with alert/calm open eyes.
-- `references/characters/base/base-male-eyes-closed.png` for male pampering, spa, massage, rest, or eyes-closed service variants.
+- `base-female-eyes-open` for female service workers or clients with alert/calm open eyes.
+- `base-female-eyes-closed` for female pampering, spa, massage, rest, or eyes-closed variants.
+- `base-male-eyes-open` for male service workers or clients with alert/calm open eyes.
+- `base-male-eyes-closed` for male pampering, spa, massage, rest, or eyes-closed variants.
 
 Default to the open-eyes base for active service-worker roles (maid/helper, security guard, technician, driver, trainer, cleaner, cook, nurse, attendant). Use the closed-eyes base for salon/spa/massage/pampering variants or when the requested expression is explicitly serene/resting. Do not edit eye state from scratch when the matching base already exists; choose the correct base first.
 
-The canonical gender base is the primary source of truth for face family, crop, proportions, material finish, lighting, shadow treatment, optical size, and hair fidelity. Use service exemplars from `references/characters/` only to resolve a specific canonical wardrobe or treatment cue, or as the base image when no canonical gender base exists yet.
+For a new or unlisted character, the canonical gender base is the primary source of truth for face family, crop, proportions, material finish, lighting, shadow treatment, optical size, and hair fidelity. A service exemplar may be the edit target only when the request resolves that exact existing service-character identity; it is never a loose fallback for a different or unresolved character.
 
-When the user supplies an external human/person reference image, keep the canonical UC set-style bust crop by default. Use the external image only for requested local cues such as treatment placement, cream/mask shape, wardrobe color, clothing type, expression mood, or hairstyle direction. Do not inherit the external image's face-only crop, tight photographic framing, body crop, camera distance, head size, or composition unless the user explicitly asks to match the reference crop/framing/composition. If the user explicitly requests reference crop/framing, still translate it into the UC tactile 3D character language and do not copy real-person likeness.
+When the user supplies an external human/person reference image, keep the canonical UC set-style bust crop by default. Unless the user explicitly labels that image as the request-scoped edit base, use it only for requested local cues such as treatment placement, cream/mask shape, wardrobe color, clothing type, expression mood, or hairstyle direction. An explicitly supplied `base` reference follows the runtime precedence contract for that request only and is never promoted automatically. Do not inherit an ordinary cue reference's face-only crop, tight photographic framing, body crop, camera distance, head size, or composition unless the user explicitly asks to match the reference crop/framing/composition. Always translate it into the UC tactile 3D character language and do not copy real-person likeness.
 
-Curated, mutually-consistent service exemplars live in `references/characters/`:
+Curated service exemplar identities also resolve through the character manifest:
 
-The written spec below is an edit guide and constraint checklist. It tells the model what may change for the requested service variant; it should not replace the base image when an exemplar can be edited. When edit mode is unavailable, pass the relevant exemplar PNG(s) as style/reference images. Use text-only generation only as a last resort when neither edit mode nor reference images are exposed.
+The written spec below is an edit guide and constraint checklist. It tells the model what may change for the requested service variant; it never substitutes for the planner-resolved edit target (exact service variant, canonical gender base, or explicitly supplied request-scoped base). If base-image editing is unavailable, stop and report that the character edit is blocked. Do not fall back to exemplar-as-style or text-only generation because either path can invent a different character identity.
 
-| File | Service | Market | Wardrobe / accent |
+| Character ID | Service | Market | Wardrobe / accent |
 |---|---|---|---|
-| `insta-help-india.png` | InstaHelp (maid) | India | Purple uniform + white apron |
-| `maid-dubai.png` | Maid for rent / all-in-one help (live-out) | Dubai only | Blue uniform + yellow collar + light-blue apron |
-| `live-in-maid-dubai.png` | Maid for rent — live-in | Dubai only | Same blue/yellow uniform + small house accent beside the bust |
-| `premium-helper.png` | Premium helper (luxe or any premium tier) | India or any country | Black wrap top + gold piping |
-| `female-salon-spa.png` | Women's salon & spa | Dubai | White bathrobe + towel turban + green face mask |
-| `luxury-female-salon-spa.png` | Luxury women's salon & spa | Dubai | Same spa bust + golden sparkle accents |
-| `male-salon-massage.png` | Men's salon & massage | Dubai | White bathrobe + foam beard + green eye patches |
+| `insta-help-india` | InstaHelp (maid) | India | Purple uniform + white apron |
+| `maid-dubai` | Maid for rent / all-in-one help (live-out) | Dubai only | Blue uniform + yellow collar + light-blue apron |
+| `live-in-maid-dubai` | Maid for rent — live-in | Dubai only | Same blue/yellow uniform + small house accent beside the bust |
+| `premium-helper` | Premium helper (luxe or any premium tier) | India or any country | Black wrap top + gold piping |
+| `female-salon-spa` | Women's salon & spa | Dubai | White bathrobe + towel turban + green face mask |
+| `luxury-female-salon-spa` | Luxury women's salon & spa | Dubai | Same spa bust + golden sparkle accents |
+| `male-salon-massage` | Men's salon & massage | Dubai | White bathrobe + foam beard + green eye patches |
 
-If a new character icon is requested, edit the canonical gender base closest to the requested gender. Keep the base character identity intact and change only the requested wardrobe, treatment cue, sanctioned accent, hairstyle shape when needed for the role, and fixed #f5f5f5 background. If no canonical gender base exists yet, edit the exemplar closest in wardrobe and gender. Never mix a drifting external reference into the set.
+If a new character icon is requested, edit the canonical gender base closest to the requested gender. Keep the base character identity intact and change only the requested wardrobe, treatment cue, sanctioned accent, hairstyle shape when needed for the role, and fixed #f5f5f5 background. If no canonical gender base resolves, stop instead of inventing a replacement. Never mix a drifting external reference into the set.
 
 ## Character DNA (shared across every character icon)
 
@@ -93,7 +99,12 @@ Exactly two accents exist; use only when the variant calls for them, never both 
 
 ## Camera, Lighting, Grounding
 
-Identical to the object brief: straight front view, centred, near-orthographic, head-on at eye level. Soft front-top studio light, gentle contrast, broad premium highlights. Clear soft contact shadow under the bust. Fixed solid #f5f5f5 background by default; final export is 1024x768.
+Use the resolved base's straight front bust view, crop, optical scale, material finish,
+lighting, and legacy source treatment. Ordinary base edits preserve the base treatment.
+For a newly redesigned character master, use exact `#f5f5f5` with no external cast,
+contact, drop, or floor shadow, glow, or ambient grounding pool; internal self-shadow,
+occlusion, and material shading remain allowed. Request a high-quality opaque
+`2048x1536` PNG master and derive the `1024x768` delivery with the exporter.
 
 ## Character Avoid List
 
@@ -101,7 +112,7 @@ In addition to the brief's global avoid list: real-person likeness or celebrity 
 
 ## Edit Prompt (character path)
 
-Use this in place of the object prompt. Provide the selected canonical gender base PNG as the base image for Image Gen edit mode whenever available; otherwise provide the closest service exemplar. Fill `<SERVICE>`, `<WARDROBE>` (copy verbatim from Wardrobe Variants for canonical variants; otherwise specify one compact role-specific uniform), `<EYES>` (`open, calm` or `closed, serene`), `<ACCENT>` (`none` for standard variants; copy the small-house or golden-sparkle description verbatim from Accent Cues for live-in / luxury variants), and `<BACKGROUND>`.
+Use this in place of the object prompt. Provide the planner-selected edit-target PNG (exact service variant, canonical gender base, or explicitly supplied request-scoped base) to Image Gen edit mode. If that edit target cannot be supplied, stop; do not replace it with a loosely related service exemplar or text-only generation. Fill `<SERVICE>`, `<WARDROBE>` (copy verbatim from Wardrobe Variants for canonical variants; otherwise specify one compact role-specific uniform), `<EYES>` (`open, calm` or `closed, serene`), `<ACCENT>` (`none` for standard variants; copy the small-house or golden-sparkle description verbatim from Accent Cues for live-in / luxury variants), and `<BACKGROUND>`.
 
 ```text
 Use case: UI category icon
@@ -114,10 +125,10 @@ Wardrobe (exact, no additions): <WARDROBE>
 Accent: <ACCENT>
 Service cue: the wardrobe is the primary service cue. No handheld tools, no props, no second object mass beyond the specified accent (if any). Any treatment element (mask, foam, towel, patches) sits directly on the character in the same matte material language. If an accent is specified, it stays clearly secondary — the character remains the single focal mass.
 Style language: tactile_skeuomorphic_micro-object — soft, premium, miniature 3D language between product rendering and iconography; matte-to-satin finish; satin gloss only on hair and lips.
-Scene / background: <BACKGROUND> (default: fixed solid #f5f5f5 background with a clear soft contact shadow under the bust; no environment).
+Scene / background: <BACKGROUND> (default: fixed solid #f5f5f5 with no environment; preserve legacy source treatment for an ordinary base edit).
 Camera / view: straight front view, centred, head-on at eye level, near-orthographic. No 3/4 angle, no head tilt.
-Lighting / mood: soft studio lighting, front-top biased; gentle contrast; broad soft premium highlights; clear soft contact shadow.
-Quality: 1024x768 PNG, polished premium UI icon, balanced margins, consistent optical size with the rest of the icon set.
+Lighting / mood: preserve the supplied base lighting and source treatment for an ordinary edit. For a redesigned master, use soft front-top studio light, gentle contrast, broad premium highlights, and no external cast/contact/drop/floor shadow, glow, or ambient grounding pool; internal self-shadow and occlusion are allowed.
+Quality: high-quality opaque 2048x1536 PNG master, polished premium UI icon, balanced margins, and consistent optical size; derive a 1024x768 delivery without upscaling a smaller native result.
 Avoid: replacing the base character with a newly invented face; real-person likeness; photoreal skin or hair strands; uncanny realism; cartoon/toy exaggeration; teeth or open mouth; arms, hands, full body; jewellery, glasses, name tags, logos, text; different skin tone or face from the base image; multiple characters; side or 3/4 angle; dramatic emotion; busy environment; harsh shadows; flat 2D vector look.
 ```
 

@@ -1,4 +1,4 @@
 interface:
   display_name: "UC Icons"
-  short_description: "Generate tactile Urban Company icon PNGs."
-  default_prompt: "Use $uc-icons to generate a 1024x768 icon on #f5f5f5 for: "
+  short_description: "Generate tactile UC icon masters and deliveries."
+  default_prompt: "Use $uc-icons to create a high-resolution UC icon master and 1024x768 delivery for: "
