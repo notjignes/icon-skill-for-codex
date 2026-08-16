@@ -3,3 +3,12 @@ __MACOSX/
 assets/
 output/
 tmp/
+__pycache__/
+*.pyc
+
+# High-resolution candidate workbench stays local until explicit owner promotion.
+evaluation/reference-bank/candidates/
+evaluation/reference-bank/quarantined/
+
+# Promotion staging is transactional and must never be committed.
+uc-icons/references/reference-bank/.promotion-*/

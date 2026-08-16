@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "name": "uc-icons-v0.2-reference-transfer",
+  "candidate_wave": [
+    {"target": "office chair", "target_family": "office-chair", "positive_held_out": ["salon chair", "dining chair", "mesh visitor chair"], "negative_control": "sofa"},
+    {"target": "basin mixer tap", "target_family": "basin-mixer", "positive_held_out": ["shower mixer", "kitchen faucet", "bathtub mixer"], "negative_control": "water purifier"},
+    {"target": "standalone cordless drill", "target_family": "power-drill", "positive_held_out": ["electric screwdriver", "impact driver", "jigsaw"], "negative_control": "cabinet with drill"},
+    {"target": "side-profile passenger van", "target_family": "passenger-van", "positive_held_out": ["minibus", "delivery van", "airport shuttle"], "negative_control": "massage table"},
+    {"target": "standing lamp", "target_family": "standing-lamp", "positive_held_out": ["coat rack", "pedestal fan", "tripod work light"], "negative_control": "string-light railing"},
+    {"target": "slight-top mattress", "target_family": "mattress", "positive_held_out": ["upholstered ottoman", "folded duvet", "bench cushion"], "negative_control": "bed bug"},
+    {"target": "upright broom", "target_family": "broom", "positive_held_out": ["upright mop", "floor wiper", "garden rake"], "negative_control": "vacuum cleaner"},
+    {"target": "palette-neutral gift box", "target_family": "gift-box", "positive_held_out": ["wrapped parcel", "jewellery box", "storage box"], "negative_control": "box truck"},
+    {"target": "transparent tea vessel", "target_family": "tea-glass", "positive_held_out": ["clear soap dispenser", "perfume bottle", "glass vase"], "negative_control": "glass balustrade"},
+    {"target": "open-top salad bowl", "target_family": "salad-bowl", "positive_held_out": ["fruit bowl", "soup bowl", "pet bowl"], "negative_control": "toilet bowl"},
+    {"target": "single candle jar", "target_family": "candle-jar", "positive_held_out": ["reed diffuser", "skincare jar", "incense holder"], "negative_control": "geyser"},
+    {"target": "two-candle set", "target_family": "candle-set", "positive_held_out": ["spa-product trio", "cosmetic pair", "incense set"], "negative_control": "single candle jar"}
+  ],
+  "candidate_count_per_target": 3,
+  "shortlist_limit_per_target": 1,
+  "transfer_runs_per_arm": 3,
+  "promotion_gate": {
+    "positive_wins_required": 2,
+    "critical_regressions_allowed": 0,
+    "negative_form_leakage_allowed": 0,
+    "owner_approval_required": true
+  }
+}
