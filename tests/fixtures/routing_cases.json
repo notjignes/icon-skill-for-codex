@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {"subject": "Native RO Water Purifiers (India)", "mode": "exact_export", "service_file": "Native RO Water Purifiers (India).png"},
+    {"subject": "water purifier", "mode": "ask_user"},
+    {"subject": "normal water purifier", "mode": "exact_export", "service_file": "Water purifier repair.png"},
+    {"subject": "make the air cooler blue", "mode": "base_edit", "base_file": "Air cooler.png"},
+    {"subject": "female chef with a white coat", "mode": "character_edit", "character_id": "base-female-eyes-open"},
+    {"subject": "spa client with eyes closed", "mode": "ask_user"},
+    {"subject": "office chair", "mode": "new_generation", "family": "office-chair", "forbidden_paths": ["Sofa (pink chesterfield).png"]},
+    {"subject": "basin mixer tap", "mode": "new_generation", "family": "basin-mixer", "forbidden_paths": ["Air purifier repair.png", "Water purifier repair.png"]},
+    {"subject": "standalone cordless drill", "mode": "new_generation", "family": "power-drill", "forbidden_paths": ["Furniture assembly.png", "Door installation (Dubai) [filed as Curtains].png"]},
+    {"subject": "black transportation van", "mode": "new_generation", "family": "passenger-van", "forbidden_paths": ["Massage for men.png"]},
+    {"subject": "gift box", "mode": "new_generation", "family": "gift-box", "forbidden_paths": ["Packers & movers (Dubai).png"]},
+    {"subject": "tea glass", "mode": "new_generation", "family": "tea-glass", "forbidden_paths": ["Festive lights installation (Dubai).png"]},
+    {"subject": "salad bowl", "mode": "new_generation", "family": "salad-bowl", "forbidden_paths": ["Bathroom cleaning (Dubai).png"]},
+    {"subject": "mystery orbital calibrator", "mode": "new_generation", "family": null, "reference_count": 0}
+  ]
+}
