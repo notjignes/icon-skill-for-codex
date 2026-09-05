@@ -1,126 +1,63 @@
 ---
 name: skeuo-uc-characters
-description: "Character sub-spec for Waterlemon UC people-centric service icons. Pairs canonical gender bases, curated service references, and a full character style block."
+description: "Canonical UC character appearance, service wardrobe, treatment and accent rules for base-preserving edits."
 ---
 
-# Waterlemon UC Character Icons (Sub-Spec)
+# Waterlemon UC characters
 
-This sub-spec extends the Waterlemon UC brief for **character icons only**. It applies exclusively on the character path — people-centric service categories such as maid/helper, salon, spa, massage, security guard, technician, driver, trainer, and similar service workers or service clients. It must never bleed into object icons, which keep the "no human presence" rule.
+Use only when the subject is a service worker or client. Object icons never inherit character features. Wardrobe carries the service meaning; use a single bust without handheld tools or unrelated props.
 
-## Gating
+## Base and composition
 
-Use this sub-spec only when the requested subject IS a person delivering or receiving a service:
+An exact curated character asset is exported unchanged. Explicit edits to a named character asset preserve that asset as the edit target. New service-character variants use the planner-returned curated base as the edit target, never merely as a style reference. The user-selected InstaHelp master (`insta-help-india.png`) is the calibrated base for open-eyed female service variants: its neutral beige skin, soft light, larger face-to-bust ratio and shallow upper-chest crop win over the warmer generic bare-shoulder base. Use the generic canonical files for other gender/eye states, or an explicitly user-selected curated source. Canonical files in `characters/base/` are `base-female-eyes-open.png`, `base-female-eyes-closed.png`, `base-male-eyes-open.png`, and `base-male-eyes-closed.png`.
 
-- maid / helper / domestic help (InstaHelp, maid-for-rent, premium helper)
-- women's salon & spa (female client being pampered)
-- men's salon & massage (male client being pampered)
-- security guard, technician, driver, trainer, cleaner, cook, nurse, attendant, or any clearly male/female service-worker bust
+Choose requested gender and eye state first. Active workers default to open eyes; salon, spa, massage and resting clients default to closed eyes. Select the matching base instead of repainting its eyes. If the required base or base-preserving editing is unavailable, report the blocker; do not automatically substitute reference-only or text-only generation.
 
-Everything else stays on the object path. If a subject mixes an object and a person (e.g. "maid with vacuum"), prefer the character alone — the uniform is the service cue; do not add a handheld tool as a second mass.
+Preserve the base face, expression, skin, proportions, crop, camera, optical size, lighting, existing shadow and material fidelity. Change only the requested wardrobe, treatment, sanctioned accent or necessary hairstyle shape. Curated exemplars below establish service details, not replacement face identities.
 
-## Style References (primary source)
+External person references supply requested clothing, treatment, mood or hair cues. Keep the UC bust crop unless the user explicitly requests different framing/composition; then name that override in the edit prompt. Translate composition into UC style without copying real-person likeness.
 
-Canonical gender base images live in `references/characters/base/`. For any male or female character generation, use the closest matching canonical gender + eye-state base as the **base image** in Image Gen edit mode whenever editing is available:
+## Character appearance
 
-- `references/characters/base/base-female-eyes-open.png` for female service workers or clients with alert/calm open eyes.
-- `references/characters/base/base-female-eyes-closed.png` for female pampering, spa, massage, rest, or eyes-closed service variants.
-- `references/characters/base/base-male-eyes-open.png` for male service workers or clients with alert/calm open eyes.
-- `references/characters/base/base-male-eyes-closed.png` for male pampering, spa, massage, rest, or eyes-closed service variants.
+- Premium stylised designer-vinyl bust: head, neck, softly sloped shoulders and upper chest, with a clean rounded lower edge. Preserve the actual selected base’s head-to-shoulder and face-to-bust proportions; do not impose a universal numeric head-height ratio. No arms, hands, waist or full body by default.
+- Match the selected curated base’s skin hue, saturation and neutral diffuse illumination. Do not warm it toward orange or increase contrast; descriptive “warmth” must not override the source pixels. No pores, mottling, wrinkles or neck creases.
+- Thick sculpted dark-brown brows; almond dark-brown eyes with one white catchlight; simple nose without nostril openings; coral-pink lips in a closed micro-smile; simplified ears. Closed eyes use smooth downward lash-line crescents. No teeth, eyelash strands, inner-ear detail, freckles or makeup detail.
+- Preserve warm/medium-brown hair as satin-plastic or polished-clay masses: broad flow bands and curved highlights, shallow low-contrast grooves, rounded edges. Female shapes may use bun, low ponytail, compact sweep or towel cover; male shapes may use short crop, side sweep or cap-compressed hair. No individual fibers, flyaways, frizz, wet shine, sharp white streaks, scalp detail or sparkle noise.
+- Smooth moulded fabric with soft seam ridges; towels use fine uniform simplified nubble. Matte-to-satin finish, narrow satin highlights on hair/lips. Calm, composed expression; no dramatic emotion, photorealism, mascot/Funko exaggeration or random jewellery, glasses, badges, logos and text.
 
-Default to the open-eyes base for active service-worker roles (maid/helper, security guard, technician, driver, trainer, cleaner, cook, nurse, attendant). Use the closed-eyes base for salon/spa/massage/pampering variants or when the requested expression is explicitly serene/resting. Do not edit eye state from scratch when the matching base already exists; choose the correct base first.
+## Canonical wardrobe and treatment
 
-The canonical gender base is the primary source of truth for face family, crop, proportions, material finish, lighting, shadow treatment, optical size, and hair fidelity. Use service exemplars from `references/characters/` only to resolve a specific canonical wardrobe or treatment cue, or as the base image when no canonical gender base exists yet.
+Reproduce these details without restyling or extra accessories unless the user requests changes. Exemplar filenames are relative to `characters/`.
 
-When the user supplies an external human/person reference image, keep the canonical UC set-style bust crop by default. Use the external image only for requested local cues such as treatment placement, cream/mask shape, wardrobe color, clothing type, expression mood, or hairstyle direction. Do not inherit the external image's face-only crop, tight photographic framing, body crop, camera distance, head size, or composition unless the user explicitly asks to match the reference crop/framing/composition. If the user explicitly requests reference crop/framing, still translate it into the UC tactile 3D character language and do not copy real-person likeness.
+| Variant / exemplar | Required details |
+|---|---|
+| InstaHelp, India — `insta-help-india.png` | Medium-purple dress, small rounded collar, white square-bib apron; low bun; open eyes. |
+| Live-out/all-in-one maid, Dubai — `maid-dubai.png` | Royal/medium-blue dress, mustard-yellow rounded collar, light sky-blue square-bib pinafore apron; low bun; open eyes. |
+| Live-in maid, Dubai — `live-in-maid-dubai.png` | Same Dubai uniform and character; small house accent below. |
+| Premium helper, any country — `premium-helper.png` | Black crossover/wrap top, thin gold lapel piping, no apron; low side ponytail; open eyes. |
+| Women's salon/spa, Dubai exemplar — `female-salon-spa.png` | White terry shawl-collar bathrobe, cream towel turban, smooth sage-green clay mask with clean eye/brow/lip cut-outs; closed serene eyes. |
+| Luxury women's salon/spa, Dubai exemplar — `luxury-female-salon-spa.png` | Same spa wardrobe and treatment; golden sparkle accent below. |
+| Men's salon/massage, Dubai exemplar — `male-salon-massage.png` | White terry shawl-collar bathrobe, simplified fluffy white foam beard around jaw/upper lip, two sage-green under-eye patches; closed serene eyes, short brown sculpted hair. |
 
-Curated, mutually-consistent service exemplars live in `references/characters/`:
+For unlisted roles, use one compact professional shirt/jacket/top, relevant collar/apron and role-defining hat if needed. No name tags, tools, weapons or extra props. Canonical treatment combinations above remain intact; otherwise limit additions to one applied face/head treatment. Masks read as matte putty, foam as simplified meringue lobes, patches as satin with one soft highlight.
 
-The written spec below is an edit guide and constraint checklist. It tells the model what may change for the requested service variant; it should not replace the base image when an exemplar can be edited. When edit mode is unavailable, pass the relevant exemplar PNG(s) as style/reference images. Use text-only generation only as a last resort when neither edit mode nor reference images are exposed.
+Only two side accents are sanctioned, never together:
 
-| File | Service | Market | Wardrobe / accent |
-|---|---|---|---|
-| `insta-help-india.png` | InstaHelp (maid) | India | Purple uniform + white apron |
-| `maid-dubai.png` | Maid for rent / all-in-one help (live-out) | Dubai only | Blue uniform + yellow collar + light-blue apron |
-| `live-in-maid-dubai.png` | Maid for rent — live-in | Dubai only | Same blue/yellow uniform + small house accent beside the bust |
-| `premium-helper.png` | Premium helper (luxe or any premium tier) | India or any country | Black wrap top + gold piping |
-| `female-salon-spa.png` | Women's salon & spa | Dubai | White bathrobe + towel turban + green face mask |
-| `luxury-female-salon-spa.png` | Luxury women's salon & spa | Dubai | Same spa bust + golden sparkle accents |
-| `male-salon-massage.png` | Men's salon & massage | Dubai | White bathrobe + foam beard + green eye patches |
+- **Live-in house:** lower-right beside the bust, shoulder height or below, about one-third its height; matte white/cream cottage, terracotta-orange tiled gable roof, simple wooden door. Keep clearly secondary; no windows needed.
+- **Luxury sparkles:** two or three small asymmetric four-point golden-yellow diamonds around the upper bust, soft satin gradients. No halo, ring or particle cloud.
 
-If a new character icon is requested, edit the canonical gender base closest to the requested gender. Keep the base character identity intact and change only the requested wardrobe, treatment cue, sanctioned accent, hairstyle shape when needed for the role, and fixed #f5f5f5 background. If no canonical gender base exists yet, edit the exemplar closest in wardrobe and gender. Never mix a drifting external reference into the set.
+When adding a hat, keep the selected source’s face size, shoulder width and bottom crop. Fit a compact role cue around the existing head silhouette rather than shrinking the face to fit a tall hat or extending the torso. If that cannot fit the requested framing, use a smaller hat. Compare with the selected source after rendering; preserving a previous failed edit is insufficient.
 
-## Character DNA (shared across every character icon)
-
-One base character family — every female character icon is visibly the *same woman* in different wardrobe; the male is her counterpart in the same family.
-
-- **Form:** single stylised 3D character bust — a premium designer-vinyl figurine, same matte-satin material language as the object icons. Not a mascot, not a Pixar still, not an emoji.
-- **Crop:** head + neck + shoulders + upper chest. The bust ends in a clean soft-rounded lower edge. No arms, no hands, no waist, no full body. Preserve this UC set crop for external reference-driven character requests unless the user explicitly asks to match the reference crop/framing.
-- **Proportions:** gently stylised — head slightly oversized (roughly 40–45% of total icon height), narrow softly-sloped shoulders, slim neck. Friendly volume, not bobblehead exaggeration.
-- **Skin:** light-medium warm beige, perfectly smooth matte vinyl with a soft subsurface warmth. One consistent skin tone across the whole set. No pores, no texture, no blush mottling, no wrinkles, no neck creases.
-- **Face — include exactly:** thick soft sculpted eyebrows (dark brown, smooth solid shapes); large almond eyes with dark-brown iris, dark pupil, and one small white catchlight; simple sculpted nose with no nostril holes; full coral-pink lips with a calm, closed-mouth micro-smile; simplified sculpted ears.
-- **Face — exclude:** teeth, tongue, nostril openings, inner-ear detail, eyelash strands (lash reads as a single dark lid line), freckles, moles, makeup detail, expression lines.
-- **Eyes-closed variant (spa/pampering only):** eyes become two smooth downward lash-line crescents with soft sculpted lids; expression serene and relaxed.
-- **Hair:** preserve the base image's hair material fidelity even when the hairstyle changes. Hair is warm dark brown or medium brown, sculpted as clean satin-plastic / polished-clay masses with large simplified flow bands, broad soft curved highlights, shallow low-contrast grooves, and rounded beveled edges. Female hairstyles may change between bun, low ponytail, compact loose sweep, or towel-covered hair; male hairstyles may change between short crop, side sweep, or cap-compressed hair. Never render photoreal fibers, flyaways, frizz, wet shine, sharp white streaks, thin strand highlights, noisy texture, scalp detail, or high-frequency sparkle.
-- **Expression range:** calm, composed, quietly friendly. Never a wide grin, never sad, never surprised.
-- **Material:** skin, hair, and fabric all obey the object brief's matte-to-satin language. Fabric is smooth moulded cloth with soft seam ridges; terry/towel fabric reads as fine uniform nubble, simplified. Gloss only as narrow satin highlights on hair and lips.
-
-## Wardrobe Variants
-
-The wardrobe IS the service cue. For the canonical variants below, reproduce the listed wardrobe exactly; do not restyle, recolour, or add accessories.
-
-1. **InstaHelp (maid — India):** medium purple collared uniform dress with a small rounded collar; clean white square-bib apron over it. Hair in low bun. Eyes open.
-2. **Maid for rent (Dubai only — live-out / all-in-one help):** royal/medium blue uniform dress with a mustard-yellow rounded collar; light sky-blue square-bib pinafore apron over it, exactly as in `maid-dubai.png`. Hair in low bun. Eyes open.
-   - **Live-in variant (Dubai only):** same character and uniform, plus the small-house accent (see Accent Cues) placed beside the lower-right of the bust, as in `live-in-maid-dubai.png`.
-3. **Premium helper (luxe/premium tier — India or any country):** black crossover/wrap top with a thin gold piping line tracing the lapel. No apron. Hair in low side ponytail. Eyes open.
-4. **Women's salon & spa:** white terry bathrobe with shawl collar; cream towel turban wrapped on the head; smooth sage-green clay face mask covering the face with clean cut-outs around eyes, brows, lips; eyes closed (serene).
-   - **Luxury variant:** same spa bust, plus the golden-sparkle accent (see Accent Cues), as in `luxury-female-salon-spa.png`.
-5. **Men's salon & massage:** male character; white terry bathrobe with shawl collar; fluffy white shaving-foam beard around jaw and upper lip; two smooth sage-green under-eye gel patches; eyes closed (serene); short brown sculpted hair.
-
-For new service-worker categories not listed above, create one clean role-specific uniform only when it is necessary for recognition. Keep it compact, professional, and readable: simple shirt/jacket/top, collar or apron if relevant, optional cap/hat only if role-defining, and no readable name tags, logos, badges, text, tools, weapons, or extra props. Use the canonical gender base as the source of face, crop, material, and hair fidelity; the new wardrobe is the editable service cue.
-
-## Service-Cue Rules (character path)
-
-- The uniform/wardrobe carries the service meaning. Maximum one *applied* treatment cue on the face or head (clay mask, foam beard, eye patches, towel turban) — these sit ON the character and never form a second focal mass.
-- No handheld tools, no props beside the bust, no floating objects, no background environment — except the two sanctioned Accent Cues below.
-- Treatment cues use the same matte material language: clay mask is smooth matte putty; foam is soft simplified meringue lobes; gel patches are satin with a single soft highlight.
-
-## Accent Cues (the only allowed additions beside the bust)
-
-Exactly two accents exist; use only when the variant calls for them, never both at once, never invented alternatives.
-
-- **Small house (live-in maid only):** one miniature skeuomorphic cottage — smooth matte white/cream stucco walls, terracotta-orange tiled gable roof, simple wooden door, no windows needed — rendered in the same object-icon material language. Place it beside the bust at the lower-right, roughly shoulder height or below, clearly secondary (about one-third of the bust's height in visual weight). The character remains the single focal mass; the composition still reads as one icon silhouette. This is the only sanctioned second object mass on the character path.
-- **Golden sparkles (luxury tier only):** two to three smooth four-point diamond sparkles in warm golden yellow with a soft satin gradient, floating around the upper half of the bust (e.g. upper-right large, mid-left and lower-right smaller). They are flat-ish accents, not objects — keep them small, clean, and asymmetric; never a halo, ring, or particle cloud. Used to mark a luxury/premium tier of an existing variant (e.g. luxury women's salon & spa).
-
-## Camera, Lighting, Grounding
-
-Identical to the object brief: straight front view, centred, near-orthographic, head-on at eye level. Soft front-top studio light, gentle contrast, broad premium highlights. Clear soft contact shadow under the bust. Fixed solid #f5f5f5 background by default; final export is 1024x768.
-
-## Character Avoid List
-
-In addition to the brief's global avoid list: real-person likeness or celebrity resemblance; photoreal skin, pores, or hair strands; uncanny realism; hyper-cartoon or toy/Funko exaggeration; open-mouth smiles or teeth; arms, hands, or full body; jewellery, glasses, name tags, badges, logos or text on uniforms; varying the skin tone, face, or hair colour between icons of the set; multiple characters in one icon; ¾ or side angles; head tilt; dramatic emotion.
-
-## Edit Prompt (character path)
-
-Use this in place of the object prompt. Provide the selected canonical gender base PNG as the base image for Image Gen edit mode whenever available; otherwise provide the closest service exemplar. Fill `<SERVICE>`, `<WARDROBE>` (copy verbatim from Wardrobe Variants for canonical variants; otherwise specify one compact role-specific uniform), `<EYES>` (`open, calm` or `closed, serene`), `<ACCENT>` (`none` for standard variants; copy the small-house or golden-sparkle description verbatim from Accent Cues for live-in / luxury variants), and `<BACKGROUND>`.
+## Compact edit prompt
 
 ```text
-Use case: UI category icon
-Asset type: premium 3D skeuomorphic character app/web icon for a services marketplace (Urban Company)
-Primary request: Edit the supplied base character icon to create the requested service variant. Preserve the base image's face family, proportions, crop, material finish, lighting, shadow treatment, optical size, and hair fidelity. Change only the service-specific wardrobe, treatment cue, sanctioned accent, background, and hairstyle shape if required by the service role.
-Crop mode: default to the supplied base character's UC set-style bust crop. If an external person reference is also supplied, use it only for local requested details unless the user explicitly asked to match that reference crop/framing.
-Subject: <SERVICE> — single character bust
-Character: stylised designer-vinyl figurine bust — head, neck, shoulders, upper chest only, ending in a clean soft-rounded lower edge. Head slightly oversized (~40-45% of height), narrow soft shoulders. Light-medium warm beige skin, perfectly smooth matte vinyl, no pores or texture. Face includes only: thick soft sculpted dark-brown eyebrows; large almond dark-brown eyes with a single white catchlight; simple sculpted nose without nostril holes; full coral-pink lips in a calm closed micro-smile; simplified ears. Eyes: <EYES>. Hair: preserve the base image's satin-plastic / polished-clay fidelity: warm brown, strand-free sculpted masses, large simplified flow bands, broad soft curved highlights, shallow low-contrast grooves, rounded beveled edges; no individual fibers, flyaways, wet shine, sharp streaks, or noisy texture.
-Wardrobe (exact, no additions): <WARDROBE>
-Accent: <ACCENT>
-Service cue: the wardrobe is the primary service cue. No handheld tools, no props, no second object mass beyond the specified accent (if any). Any treatment element (mask, foam, towel, patches) sits directly on the character in the same matte material language. If an accent is specified, it stays clearly secondary — the character remains the single focal mass.
-Style language: tactile_skeuomorphic_micro-object — soft, premium, miniature 3D language between product rendering and iconography; matte-to-satin finish; satin gloss only on hair and lips.
-Scene / background: <BACKGROUND> (default: fixed solid #f5f5f5 background with a clear soft contact shadow under the bust; no environment).
-Camera / view: straight front view, centred, head-on at eye level, near-orthographic. No 3/4 angle, no head tilt.
-Lighting / mood: soft studio lighting, front-top biased; gentle contrast; broad soft premium highlights; clear soft contact shadow.
-Quality: 1024x768 PNG, polished premium UI icon, balanced margins, consistent optical size with the rest of the icon set.
-Avoid: replacing the base character with a newly invented face; real-person likeness; photoreal skin or hair strands; uncanny realism; cartoon/toy exaggeration; teeth or open mouth; arms, hands, full body; jewellery, glasses, name tags, logos, text; different skin tone or face from the base image; multiple characters; side or 3/4 angle; dramatic emotion; busy environment; harsh shadows; flat 2D vector look.
+Subject: <SERVICE / ROLE>.
+Edit the attached planner-selected curated UC base. Requested change: <CHANGE>.
+Wardrobe/treatment: <REQUIRED DETAILS FROM ABOVE OR REQUESTED UNIFORM>.
+Accent: <NONE / SANCTIONED ACCENT DETAILS>.
+Crop: preserve base, except <EXPLICIT USER OVERRIDE OR NONE>.
+Preserve face, expression, skin, proportions, optical size, camera, lighting, existing shadow, sculpted hair fidelity and all untouched details. Do not invent a replacement character or add a shadow.
+Request solid #f5f5f5 background, 1024x768 PNG, UC matte-to-satin style; no environment, text or extra props.
 ```
 
-## Set Consistency
-
-When generating multiple character icons, hold constant across the batch: face, skin tone, hair colour, head:bust ratio, crop height, lighting direction, shadow treatment, background mode, and optical size. Only wardrobe, hairstyle (bun vs ponytail vs male crop), eyes open/closed, applied treatment cues, and sanctioned accent cues (house / sparkles) may vary.
+Exporter operations only contain the full frame proportionally and composite existing alpha. Never clean backgrounds, segment pale surfaces or remove shadows automatically. Background removal is manual post-processing. Across a set, preserve face family, skin, hair material, framing, light and optical size.

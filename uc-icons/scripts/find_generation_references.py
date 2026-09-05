@@ -1,247 +1,165 @@
 #!/usr/bin/env python3
+"""Select at most two complementary, role-scoped references by default."""
 from __future__ import annotations
-
 import argparse
-import csv
 import json
-import re
 from pathlib import Path
+import icon_catalog as catalog
 
 
-SKILL_DIR = Path(__file__).resolve().parents[1]
-NEW_REF_DIR = SKILL_DIR / "references" / "new-object-references"
-NEW_REF_MANIFEST = NEW_REF_DIR / "MANIFEST.csv"
-BASE_DIR = SKILL_DIR / "references" / "base-objects"
-BASE_MANIFEST = BASE_DIR / "MANIFEST.csv"
-MATERIAL_DIR = SKILL_DIR / "references" / "archive" / "PNGs_material_index"
-MATERIAL_MANIFEST = MATERIAL_DIR / "MANIFEST.csv"
-
-ALIASES = {
-    "water": {"water"},
-    "ro": {"ro"},
-    "purifier": {"purifier", "filter"},
-    "massage": {"massage", "spa", "therapy"},
-    "table": {"table", "bed", "cot"},
-    "chair": {"chair", "seat", "armchair", "sofa"},
-    "cleaning": {"cleaning", "cleaner", "cleaners"},
-    "tool": {"tool", "tools", "drill", "wrench", "screwdriver"},
-    "appliance": {"appliance", "machine", "repair"},
-    "lamp": {"lamp", "light", "lights", "lighting", "bulb"},
-    "vehicle": {"vehicle", "van", "transport", "transportation", "truck", "car", "bus"},
-}
-
-STYLE_ANCHORS = [
-    "Armchair (beige).png",
-    "Split AC (white).png",
-    "Toolbox with wrench.png",
-    "Massage table (pink).png",
-    "RO water purifier.png",
-]
-
-WIDE_OBJECT_TERMS = {
-    "van", "truck", "car", "bus", "vehicle", "transport", "transportation",
-    "bed", "table", "cot", "sofa", "couch", "bench", "cabinet", "dresser",
-    "shelf", "curtain", "curtains", "railing", "rail", "balustrade", "stretcher",
-}
-
-TALL_OBJECT_TERMS = {
-    "lamp", "fridge", "refrigerator", "wardrobe", "geyser", "heater", "tower",
-    "purifier", "cooler",
-}
-
-FRONT_BOX_OBJECT_TERMS = {
-    "box", "gift", "present", "cube", "basket", "bucket", "caddy", "stove",
-    "microwave", "washer", "washing",
-}
+def load_references() -> list[dict]:
+    result = []
+    for manifest, key, source in [(catalog.NEW_MANIFEST,'reference_file','new-object-references'),(catalog.BASE_MANIFEST,'base_file','base-objects'),(catalog.MATERIAL_MANIFEST,'material_index_file','material-index')]:
+        for row in catalog.load_assets(manifest, key):
+            if row.get('type') != 'human':
+                result.append({**row,'source':source})
+    # Canonical base and material aliases can point to the same image. Keep
+    # component-specific material instructions attached to that asset whichever
+    # alias wins selection; they do not grant a material role by themselves.
+    material_scopes = {
+        row.get('asset_id') or row['path']: row['material_scope'].strip()
+        for row in result
+        if row['source'] == 'material-index' and (row.get('material_scope') or '').strip()
+    }
+    for row in result:
+        scope = material_scopes.get(row.get('asset_id') or row['path'])
+        if scope:
+            row['material_scope'] = scope
+    return result
 
 
 def tokens(value: str) -> set[str]:
-    raw = {part for part in re.split(r"[^a-z0-9]+", value.lower()) if part}
-    expanded = set(raw)
-    for canonical, values in ALIASES.items():
-        if raw & values:
-            expanded.add(canonical)
-            expanded |= values
-    return expanded
-
-
-def read_manifest(path: Path) -> list[dict[str, str]]:
-    if not path.exists():
-        return []
-    with path.open(newline="") as handle:
-        return list(csv.DictReader(handle))
-
-
-def resolve_image_path(row: dict[str, str], folder: Path, filename: str) -> Path:
-    image_path = row.get("image_path", "").strip()
-    if image_path:
-        candidate = Path(image_path)
-        if not candidate.is_absolute():
-            candidate = SKILL_DIR / candidate
-        return candidate
-    return folder / filename
-
-
-def add_reference(
-    refs: list[dict[str, str]],
-    source: str,
-    path: Path,
-    row: dict[str, str],
-    filename_key: str,
-) -> None:
-    filename = row.get(filename_key, "")
-    if not filename:
-        return
-    ref_path = resolve_image_path(row, path, filename)
-    if not ref_path.exists():
-        return
-    refs.append(
-        {
-            "source": source,
-            "file": filename,
-            "path": str(ref_path),
-            "type": row.get("type", ""),
-            "objects": row.get("objects", ""),
-            "materials": row.get("materials", ""),
-            "colors": row.get("colors", ""),
-            "orientation": row.get("orientation", ""),
-            "style_role": row.get("style_role", "style-texture"),
-            "good_for": row.get("good_for", row.get("canonical_for", "")),
-            "avoid_for": row.get("avoid_for", row.get("do_not_use_for", "")),
-            "notes": row.get("notes", ""),
-        }
-    )
-
-
-def load_references() -> list[dict[str, str]]:
-    refs: list[dict[str, str]] = []
-    for row in read_manifest(NEW_REF_MANIFEST):
-        add_reference(refs, "new-object-references", NEW_REF_DIR, row, "reference_file")
-    for row in read_manifest(BASE_MANIFEST):
-        add_reference(refs, "base-objects", BASE_DIR, row, "base_file")
-    for row in read_manifest(MATERIAL_MANIFEST):
-        add_reference(refs, "material-index", MATERIAL_DIR, row, "material_index_file")
-    return refs
-
-
-def score(ref: dict[str, str], query_tokens: set[str], query: str) -> int:
-    text = " ".join(ref.values())
-    ref_tokens = tokens(text)
-    score = len(query_tokens & ref_tokens) * 4
-
-    object_tokens = tokens(ref.get("objects", ""))
-    material_tokens = tokens(ref.get("materials", ""))
-    good_tokens = tokens(ref.get("good_for", ""))
-    avoid_tokens = tokens(ref.get("avoid_for", ""))
-
-    score += len(query_tokens & object_tokens) * 7
-    score += len(query_tokens & material_tokens) * 2
-    score += len(query_tokens & good_tokens) * 4
-
-    stem = Path(ref["file"]).stem.lower()
-    if query.lower().strip() == stem:
-        score += 30
-    if query.lower().strip() in stem:
-        score += 12
-    if query_tokens & avoid_tokens:
-        score -= 20
-
-    ref_orientation = ref.get("orientation", "")
-    desired_orientation = classify_orientation(query_tokens)
-    if desired_orientation == ref_orientation:
-        score += 12
-    elif desired_orientation == "side-horizontal" and ref_orientation != "side-horizontal":
-        score -= 10
-    elif desired_orientation == "front-near-orthographic" and ref_orientation == "side-horizontal":
-        score -= 50
-
-    ref_type = ref.get("type", "")
-    if query_tokens & {"van", "truck", "car", "bus", "vehicle", "transport", "transportation"}:
-        score += 20 if object_tokens & {"van", "truck", "car", "bus", "vehicle"} else -8
-
-    if ref["source"] == "new-object-references":
-        score += 6
-    elif ref["source"] == "base-objects":
-        score += 3
-
-    return score
+    return catalog.words(value)
 
 
 def classify_orientation(query_tokens: set[str]) -> str:
-    if query_tokens & WIDE_OBJECT_TERMS:
-        return "side-horizontal"
-    if query_tokens & TALL_OBJECT_TERMS:
-        return "front-near-orthographic"
-    if query_tokens & FRONT_BOX_OBJECT_TERMS:
-        return "front-near-orthographic"
-    return "front-near-orthographic"
+    # Compatibility only; main code retains word order for compound identities.
+    return catalog.default_orientation(' '.join(sorted(query_tokens)))
 
 
 def orientation_prompt(orientation: str) -> str:
-    if orientation == "side-horizontal":
-        return (
-            "side-horizontal straight profile, full width visible, long axis perfectly horizontal, "
-            "no 3/4 front view, no angled perspective, no top-down view"
-        )
-    return "straight-on front view, no 3/4 view, no angled perspective, no top-down view"
+    return catalog.orientation_prompt(orientation)
 
 
-def find_references(subject: str, max_refs: int) -> dict[str, object]:
-    query_tokens = tokens(subject)
-    desired_orientation = classify_orientation(query_tokens)
-    scored = []
-    for ref in load_references():
-        ref_score = score(ref, query_tokens, subject)
-        if ref_score >= 5:
-            scored.append((ref_score, ref))
-    scored.sort(key=lambda item: (-item[0], item[1]["source"], item[1]["file"].lower()))
+def find_references(subject: str, max_refs: int = 2, material: str = '', composition: str = '') -> dict:
+    if not 0 <= max_refs <= 5:
+        raise ValueError('max_refs must be between 0 and 5')
+    orientation = catalog.composition_orientation(composition) if composition else catalog.default_orientation(subject)
+    identity = catalog.family(subject)
+    pool = load_references()
+    known_materials = catalog.MATERIALS | set().union(*(catalog.words(row.get('material_tags') or row.get('materials','')) for row in pool))
+    known_finishes = set().union(*(catalog.words(row.get('finish_tags','')) for row in pool))
+    wanted_materials = (catalog.words(subject) & (known_materials | known_finishes)) | catalog.words(material)
+    if 'wooden' in wanted_materials:
+        wanted_materials = (wanted_materials - {'wooden'}) | {'wood'}
+    # "Chrome metal" is one material request, not two independent matches.
+    # Generic metal must not let incidental truck trim outrank relevant chrome.
+    if wanted_materials & {'chrome','steel','iron','brass','bronze','copper','aluminum','aluminium'}:
+        wanted_materials.discard('metal')
+    wanted_substances = wanted_materials & known_materials
+    wanted_finishes = wanted_materials - known_materials
+    chosen = []
+    seen = set()
 
-    references = [
-        {"score": ref_score, **ref}
-        for ref_score, ref in scored[:max_refs]
-    ]
+    def permitted(row: dict, role: str) -> bool:
+        if row['source'] != 'new-object-references':
+            return True
+        return role in row.get('source_role','').split(';')
 
-    if not references:
-        anchor_refs = [ref for ref in load_references() if ref["file"] in STYLE_ANCHORS]
-        anchor_refs.sort(key=lambda ref: STYLE_ANCHORS.index(ref["file"]))
-        references = [
-            {"score": 0, **ref}
-            for ref in anchor_refs[:max_refs]
-        ]
-        mode = "style_reference_set"
-    elif references[0]["score"] >= 30:
-        mode = "closest_product_reference"
-        references = references[:1]
-    else:
-        mode = "style_reference_set"
+    def pick(candidates: list[tuple[tuple[int,...],dict]], role: str, transfer: str) -> None:
+        def rank(item: tuple[tuple[int,...],dict]) -> tuple:
+            score, row = item
+            if role == 'material_reference':
+                # After coverage, prefer the selected form's own material over
+                # a redundant image of an unrelated object with equal coverage.
+                score = score[:2] + (int((row.get('asset_id') or row['path']) in seen),) + score[2:]
+            return tuple(-value for value in score) + (row['file'],)
 
-    return {
-        "subject": subject,
-        "mode": mode,
-        "orientation": desired_orientation,
-        "prompt": (
-            f"Generate a {subject} in this style. "
-            f"{orientation_prompt(desired_orientation)}, fixed #f5f5f5 background, "
-            "no cast shadow, no drop shadow, no contact shadow, no floor shadow."
-        ),
-        "references": references,
-        "reference_count": len(references),
-        "instruction": (
-            "Attach references silently if the tool path supports local reference images. "
-            "Do not preview references in chat. If local references cannot be attached, "
-            "use the prompt plus manifest-derived style notes only."
-        ),
-    }
+        for score, row in sorted(candidates, key=rank):
+            asset = row.get('asset_id') or row['path']
+            material_scope = (row.get('material_scope') or '').strip() if role == 'material_reference' else ''
+            role_transfer = transfer + (f' Material scope: {material_scope}' if material_scope else '')
+            if asset in seen:
+                existing = next(r for r in chosen if (r.get('asset_id') or r['path']) == asset)
+                if role not in existing['roles']:
+                    existing['roles'].append(role)
+                    existing['transfer'] += ' '+role_transfer
+                if role=='material_reference':
+                    existing['matched_terms'] = sorted(wanted_materials & (catalog.words(row.get('material_tags') or row.get('materials','')) | catalog.words(row.get('finish_tags',''))))
+                    if material_scope:
+                        existing['material_scope'] = material_scope
+                break
+            if len(chosen) >= max_refs:
+                continue
+            seen.add(asset)
+            selected = {'file':row['file'],'path':row['path'],'asset_id':row.get('asset_id',''),'role':role,'roles':[role],'transfer':role_transfer,'materials':row.get('material_tags',row.get('materials','')),'finish':row.get('finish_tags','unknown'),'orientation':row.get('orientation','unknown'),'matched_terms':[] if role!='material_reference' else sorted(wanted_materials & (catalog.words(row.get('material_tags') or row.get('materials','')) | catalog.words(row.get('finish_tags',''))))}
+            if material_scope:
+                selected['material_scope'] = material_scope
+            chosen.append(selected)
+            break
+
+    forms = []
+    mats = []
+    comps = []
+    for row in pool:
+        if row['source'] == 'base-objects':
+            ref_family = catalog.base_family(row)
+        else:
+            ref_family = row.get('object_family','')
+        # Match exclusion phrases, not arbitrary words in explanatory notes.
+        exclusions = row.get('avoid_for','').split(';')
+        if any(p.strip() and catalog.has_phrase(subject,p) for p in exclusions):
+            continue
+        if identity and ref_family == identity and permitted(row,'form_reference'):
+            score = 10 + len(catalog.words(subject) & catalog.words(row['file']))
+            forms.append(((score,),row))
+        materials = catalog.words(row.get('material_tags') or row.get('materials',''))
+        finishes = catalog.words(row.get('finish_tags',''))
+        overlap = wanted_materials & (materials | finishes)
+        same_family = bool(identity and ref_family == identity)
+        substance_match = wanted_substances & materials
+        # Unrelated material references must establish the requested finish,
+        # not merely share "metal" while teaching a conflicting painted/glossy
+        # treatment. A matching form may retain partial evidence with gaps.
+        unsupported_finish = wanted_finishes - finishes
+        material_eligible = (not wanted_substances or bool(substance_match)) and (same_family or not unsupported_finish)
+        if overlap and material_eligible and permitted(row,'material_reference'):
+            # Component evidence (a faucet in the plumber exemplar) is more
+            # relevant than incidental chrome on an unrelated vehicle.
+            related_component = bool(identity and any(catalog.has_phrase(row.get('objects',''),alias) for alias in catalog.FAMILIES.get(identity,[identity])))
+            mats.append(((len(overlap),len(wanted_finishes & finishes),int(same_family),int(related_component),-len(materials - wanted_substances)),row))
+        # Only explicitly curated composition evidence can teach framing.
+        if composition and row.get('composition_family') == composition and permitted(row,'composition_reference'):
+            comps.append(((1,),row))
+    pick(forms,'form_reference','Subject shape and functional parts only; do not copy palette, framing, shadows, or photographic style.')
+    pick(mats,'material_reference','Surface, texture density and highlights for the matched material/finish terms only; do not copy object identity, camera, palette, shadows, or unsupported finishes.')
+    pick(comps,'composition_reference','Camera, framing and mass balance only; retain requested subject and UC material style.')
+    gaps = []
+    if not forms:
+        gaps.append('No approved matching form reference.')
+    covered = set().union(*(set(r['matched_terms']) for r in chosen))
+    missing = wanted_materials - covered
+    if missing:
+        gaps.append('No selected reference establishes material/finish: '+', '.join(sorted(missing)))
+    if composition and not comps:
+        gaps.append('Composition uses a text recipe; no approved composition exemplar yet.')
+    roles = ' '.join(f'Image {i+1}: {r["transfer"]}' for i,r in enumerate(chosen))
+    prompt = (f'Create one Waterlemon UC icon of {subject}. '+catalog.orientation_prompt(orientation)+'. '
+              '1024x768 PNG, solid #f5f5f5 background, centered premium tactile 3D micro-object, full subject visible with comfortable margins. '
+              'Soft studio light, softened edges, simplified believable materials with reference-matched roughness and controlled highlights, compact palette, clear silhouette. '
+              'No cast/drop/contact/floor shadow, text, logos, people or scene clutter; maximum two visual masses. '
+              +(f'Requested material/finish: {material}. ' if material else '')
+              +(f'Material/finish not established by references: {", ".join(sorted(missing))}. Follow the written request without borrowing a conflicting finish. ' if missing else '')+roles)
+    return {'subject':subject,'mode':'no_reference' if not chosen else 'closest_product_reference' if chosen[0]['role']=='form_reference' and len(chosen)==1 else 'style_reference_set',
+            'orientation':orientation,'references':chosen,'reference_count':len(chosen),'coverage_gaps':gaps,'prompt':prompt,
+            'instruction':'Use only these explicit referenced_image_paths. Never use recent conversation images or search output folders.'}
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser(description="Find references for new UC icon object generation.")
-    parser.add_argument("--subject", required=True, help="New object subject.")
-    parser.add_argument("--max", type=int, default=5, help="Maximum references to return.")
-    args = parser.parse_args()
-    print(json.dumps(find_references(args.subject, args.max), indent=2))
-    return 0
-
-
-if __name__ == "__main__":
-    raise SystemExit(main())
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--subject',required=True)
+    parser.add_argument('--max',type=int,choices=range(0,6),default=2)
+    parser.add_argument('--material',default='')
+    parser.add_argument('--composition',choices=catalog.COMPOSITIONS,default='')
+    args=parser.parse_args()
+    print(json.dumps(find_references(args.subject,args.max,args.material,args.composition),indent=2))
