@@ -24,6 +24,12 @@ class RoutingTests(unittest.TestCase):
                 self.assertEqual(plan['base_path'],row['path'])
                 self.assertEqual(plan['references'],[])
 
+    def test_chimney_hood_reuses_the_matching_archive(self):
+        plan=plan_icon("chimney hood",service="Kitchen chimney cleaning")
+        self.assertEqual(plan["mode"],"export_existing")
+        self.assertEqual(plan["base_path"],plan_icon("kitchen chimney")["base_path"])
+        self.assertEqual(plan["references"],[])
+
     def test_unrelated_objects_cannot_be_edit_bases(self):
         for subject in ['black transportation van','blue suitcase','gift box','office chair','table lamp','basin mixer tap','electric car charging station','refrigerator cover']:
             with self.subTest(subject=subject):

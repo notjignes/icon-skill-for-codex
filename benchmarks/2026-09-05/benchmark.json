@@ -1,0 +1,346 @@
+{
+  "purpose": "Current-version pilot; no pre-change generation baseline, no user acceptance yet.",
+  "engine": "built-in Image Gen",
+  "cases": [
+    {
+      "id": "upholstery-extractor",
+      "service": "Upholstery cleaning",
+      "subject": "portable upholstery extractor",
+      "material": "matte plastic clear glass rubber",
+      "new_design": true,
+      "mass_count": 1,
+      "rationale": "A dedicated extractor represents the cleaning service without needing furniture plus a tool.",
+      "planner_seconds": 0.028127583,
+      "plan": {
+        "subject": "portable upholstery extractor",
+        "requested_change": "",
+        "mode": "new_generation",
+        "base_path": null,
+        "references": [
+          {
+            "file": "Nail polish.png",
+            "path": "references/archive/PNGs_renamed/Mani-pedi (Singapore).png",
+            "asset_id": "uc-icon-534e8f31c13859d9",
+            "role": "material_reference",
+            "roles": [
+              "material_reference"
+            ],
+            "transfer": "Surface, texture density and highlights only; do not copy object identity, camera, palette, or shadows.",
+            "materials": "glass;plastic",
+            "finish": "glossy;matte",
+            "orientation": "front-near-orthographic",
+            "matched_terms": [
+              "glass",
+              "matte",
+              "plastic"
+            ]
+          }
+        ],
+        "must_preserve": "",
+        "background": "#f5f5f5",
+        "export_policy": "contain-and-composite-only",
+        "subject_kind": "object",
+        "orientation": "front-near-orthographic",
+        "reference_mode": "style_reference_set",
+        "coverage_gaps": [
+          "No approved matching form reference.",
+          "No selected reference establishes material/finish: clear, rubber"
+        ],
+        "prompt": "Create one Waterlemon UC icon of portable upholstery extractor. straight front view, near-orthographic, no three-quarter or top-down view. 1024x768 PNG, solid #f5f5f5 background, centered premium tactile 3D micro-object, full subject visible with comfortable margins. Soft studio light, softened edges, simplified believable matte-to-satin materials, compact palette, clear silhouette. No cast/drop/contact/floor shadow, text, logos, people or scene clutter; maximum two visual masses. Requested material/finish: matte plastic clear glass rubber. Image 1: Surface, texture density and highlights only; do not copy object identity, camera, palette, or shadows. Intended UC service/category: Upholstery cleaning. Make the chosen item(s) communicate this category clearly; do not add unrequested props.",
+        "prompt_template": "new-generation",
+        "service": "Upholstery cleaning"
+      },
+      "status": "reviewed-pending-user",
+      "actual_prompt": "Create one Waterlemon UC icon of a portable upholstery extractor for the UC upholstery cleaning service. A single compact cleaning machine with integrated handle, clear solution tank, neatly attached hose and upholstery suction nozzle; all parts read as one product. Straight front view, near-orthographic, full subject centered with comfortable margins on solid #f5f5f5 background, 1024x768 landscape PNG. Premium tactile skeuomorphic 3D micro-object, softened edges, simplified believable matte plastic, clear tank and rubber hose, compact restrained palette, soft studio light. Reference image 1 is material-only: transfer surface, texture density and highlights, not nail-polish identity, camera, palette or shadows. Recognizable at small UC app icon size. No furniture, additional tools, room, people, text, logos or clutter. No cast/drop/contact/floor shadow. Return the generated image and its explicit local source path.\n",
+      "source_returned": "imagegen-returned/exec-f4a4d7c7-5eaa-47d5-8961-2ab34fe9cacc.png",
+      "source_copy": "local-benchmark-sources/upholstery-extractor.png",
+      "source_sha256": "f2b93edbfd175abd0d2972a55294d443a868083bc72e67b8ef0698a684d35cd2",
+      "render_seconds": 27.139,
+      "export_seconds": 0.09305566700000001,
+      "output": "workspace-assets/upholstery-extractor-skeuo-uc.png",
+      "output_sha256": "9c4e6f08b78e995bf2400accbc4731afe64ed37cb2672ab4f96a34e7a4808ac5",
+      "export_properties": {
+        "size": "1024x768",
+        "mode": "RGBA",
+        "opaque": true,
+        "canvas_background": "#f5f5f5",
+        "perimeter_match_fraction": 0.19748603351955307
+      },
+      "input_bytes": 2052018,
+      "candidate_reference": "references/new-object-references/upholstery-extractor-candidate.png",
+      "visual_review": {
+        "reviewer": "model",
+        "user_approved": false,
+        "notes": "First-pass model review: one coherent machine; dense rubber/plastic microtexture is more realistic than simplified UC styling. Category specificity still needs user review.",
+        "initial_result": "candidate with caveats",
+        "retries": 0
+      },
+      "review_image": "../../references/new-object-references/upholstery-extractor-candidate.png"
+    },
+    {
+      "id": "chimney-hood",
+      "service": "Kitchen chimney cleaning",
+      "subject": "kitchen chimney",
+      "material": "brushed steel",
+      "new_design": true,
+      "mass_count": 1,
+      "rationale": "The chimney hood is the established single-item category representative.",
+      "planner_seconds": 0.024361833000000006,
+      "plan": {
+        "subject": "kitchen chimney",
+        "requested_change": "",
+        "mode": "new_generation",
+        "base_path": null,
+        "references": [
+          {
+            "file": "Kitchen chimney.png",
+            "path": "references/archive/PNGs_renamed/Kitchen cleaning.png",
+            "asset_id": "uc-icon-b1c11d3c3c32b214",
+            "role": "form_reference",
+            "roles": [
+              "form_reference"
+            ],
+            "transfer": "Subject shape and functional parts only; do not copy palette, framing, shadows, or photographic style.",
+            "materials": "steel;glass",
+            "finish": "brushed",
+            "orientation": "front-near-orthographic",
+            "matched_terms": []
+          },
+          {
+            "file": "Dumbbell.png",
+            "path": "references/archive/PNGs_renamed/Fitness & yoga trainers (Dubai).png",
+            "asset_id": "uc-icon-7d5c1a870f23b5f9",
+            "role": "material_reference",
+            "roles": [
+              "material_reference"
+            ],
+            "transfer": "Surface, texture density and highlights only; do not copy object identity, camera, palette, or shadows.",
+            "materials": "rubber;steel",
+            "finish": "matte;brushed",
+            "orientation": "front-near-orthographic",
+            "matched_terms": [
+              "brushed",
+              "steel"
+            ]
+          }
+        ],
+        "must_preserve": "",
+        "background": "#f5f5f5",
+        "export_policy": "contain-and-composite-only",
+        "subject_kind": "object",
+        "orientation": "front-near-orthographic",
+        "reference_mode": "style_reference_set",
+        "coverage_gaps": [],
+        "prompt": "Create one Waterlemon UC icon of kitchen chimney. straight front view, near-orthographic, no three-quarter or top-down view. 1024x768 PNG, solid #f5f5f5 background, centered premium tactile 3D micro-object, full subject visible with comfortable margins. Soft studio light, softened edges, simplified believable matte-to-satin materials, compact palette, clear silhouette. No cast/drop/contact/floor shadow, text, logos, people or scene clutter; maximum two visual masses. Requested material/finish: brushed steel. Image 1: Subject shape and functional parts only; do not copy palette, framing, shadows, or photographic style. Image 2: Surface, texture density and highlights only; do not copy object identity, camera, palette, or shadows. Intended UC service/category: Kitchen chimney cleaning. Make the chosen item(s) communicate this category clearly; do not add unrequested props.",
+        "prompt_template": "new-generation",
+        "service": "Kitchen chimney cleaning"
+      },
+      "status": "reviewed-pending-user",
+      "actual_prompt": "Create one Waterlemon UC icon of a kitchen chimney hood for the UC kitchen chimney cleaning service. Use a single isolated hood with its vertical flue and broad extraction canopy. Straight front view, near-orthographic. 1024x768 landscape PNG, solid #f5f5f5 background, full subject centered with comfortable margins. Premium tactile skeuomorphic 3D micro-object, softened edges, simplified believable brushed steel with restrained dark control panel, soft studio light and clear silhouette at small UI size. Image 1 is a form reference: transfer hood shape and functional parts only, not palette, framing or shadows. Image 2 is a material reference: transfer brushed-metal surface and highlight response only, not dumbbell shape, knurled pattern, camera, palette or shadows. No cast/drop/contact/floor shadow, no text or logos, no people, tools, kitchen room or clutter. No extra items. Return the generated image and explicit local source path.\n",
+      "source_returned": "imagegen-returned/exec-c309a4f9-42c2-4d64-bbe9-082531fa5e6d.png",
+      "source_copy": "local-benchmark-sources/chimney-hood.png",
+      "source_sha256": "80181ac34e5eb58e53a6e24d6134128ff8a2ca4c6f9c3ba7d4aa319d8696fc98",
+      "render_seconds": 31.491,
+      "export_seconds": 0.090506584,
+      "output": "workspace-assets/chimney-hood-skeuo-uc.png",
+      "output_sha256": "41f6b7034f193c3e94cae496ae542d5b9dd1351ee5cd6b59f3c104b493ba1f16",
+      "export_properties": {
+        "size": "1024x768",
+        "mode": "RGBA",
+        "opaque": true,
+        "canvas_background": "#f5f5f5",
+        "perimeter_match_fraction": 0.0
+      },
+      "input_bytes": 3333451,
+      "candidate_reference": "references/new-object-references/chimney-hood-candidate.png",
+      "visual_review": {
+        "reviewer": "model",
+        "user_approved": false,
+        "notes": "First-pass model review: recognizable single hood close to existing archive form; brushed texture more pronounced. Existing archive remains preferred for ordinary export.",
+        "initial_result": "candidate with caveats",
+        "retries": 0
+      },
+      "review_image": "../../references/new-object-references/chimney-hood-candidate.png"
+    },
+    {
+      "id": "tap-and-wrench",
+      "service": "Plumbing repair",
+      "subject": "basin mixer tap with adjustable wrench",
+      "material": "polished chrome metal",
+      "new_design": true,
+      "mass_count": 2,
+      "rationale": "A small wrench distinguishes repair from tap retail; the tap remains dominant.",
+      "planner_seconds": 0.02400308300000001,
+      "plan": {
+        "subject": "basin mixer tap with adjustable wrench",
+        "requested_change": "",
+        "mode": "new_generation",
+        "base_path": null,
+        "references": [
+          {
+            "file": "Box truck.png",
+            "path": "references/archive/PNGs_renamed/Packers & movers (Dubai).png",
+            "asset_id": "uc-icon-37c750699be22cff",
+            "role": "material_reference",
+            "roles": [
+              "material_reference"
+            ],
+            "transfer": "Surface, texture density and highlights only; do not copy object identity, camera, palette, or shadows.",
+            "materials": "metal;rubber;chrome",
+            "finish": "glossy;painted",
+            "orientation": "side-horizontal",
+            "matched_terms": [
+              "chrome",
+              "metal"
+            ]
+          }
+        ],
+        "must_preserve": "",
+        "background": "#f5f5f5",
+        "export_policy": "contain-and-composite-only",
+        "subject_kind": "object",
+        "orientation": "front-near-orthographic",
+        "reference_mode": "style_reference_set",
+        "coverage_gaps": [
+          "No approved matching form reference.",
+          "No selected reference establishes material/finish: polished"
+        ],
+        "prompt": "Create one Waterlemon UC icon of basin mixer tap with adjustable wrench. straight front view, near-orthographic, no three-quarter or top-down view. 1024x768 PNG, solid #f5f5f5 background, centered premium tactile 3D micro-object, full subject visible with comfortable margins. Soft studio light, softened edges, simplified believable matte-to-satin materials, compact palette, clear silhouette. No cast/drop/contact/floor shadow, text, logos, people or scene clutter; maximum two visual masses. Requested material/finish: polished chrome metal. Image 1: Surface, texture density and highlights only; do not copy object identity, camera, palette, or shadows. Intended UC service/category: Plumbing repair. Make the chosen item(s) communicate this category clearly; do not add unrequested props.",
+        "prompt_template": "new-generation",
+        "service": "Plumbing repair"
+      },
+      "status": "reviewed-pending-user",
+      "actual_prompt": "Create one Waterlemon UC service icon for plumbing repair: a basin mixer tap as the dominant item, with one smaller adjustable wrench beside it to make repair clear. Exactly two items, no basin, water, pipes or extra props. Centered compact balanced silhouette, tap larger than wrench. Straight front view, near-orthographic; keep the tap spout recognizable. 1024x768 landscape PNG, solid #f5f5f5 background, entire subjects visible with comfortable margins. Premium tactile skeuomorphic 3D micro-objects, softened edges, believable simplified polished chrome metal, broad controlled studio highlights rather than mirror reflections of a room. The reference truck supplies only metal/chrome surface and highlight behavior; do not copy truck identity, red/yellow colors, camera, shadows, framing or tire textures. No cast/drop/contact/floor shadow, text, logos, hands or scene clutter. Return the generated image and explicit local source path.\n",
+      "source_returned": "imagegen-returned/exec-b647a6b3-fc1a-4ab7-86b0-c3eaecbe5aec.png",
+      "source_copy": "local-benchmark-sources/tap-and-wrench.png",
+      "source_sha256": "919832a38a6a12d1edc1516e3f7c8dadbef28665f3703dd81de959e169b368c7",
+      "render_seconds": 24.879,
+      "export_seconds": 0.09005908300000001,
+      "output": "workspace-assets/tap-and-wrench-skeuo-uc.png",
+      "output_sha256": "1d6ff706465cb53ea70b4ee548eb0ea7964c665ace0c3603e4b5f5d01a55de02",
+      "export_properties": {
+        "size": "1024x768",
+        "mode": "RGBA",
+        "opaque": true,
+        "canvas_background": "#f5f5f5",
+        "perimeter_match_fraction": 0.3011173184357542
+      },
+      "input_bytes": 4650279,
+      "candidate_reference": "references/new-object-references/tap-and-wrench-candidate.png",
+      "visual_review": {
+        "reviewer": "model",
+        "user_approved": false,
+        "notes": "First-pass model review: tap dominates and wrench supplies a clear repair cue. Tap is predominantly side-profile with outlet underside visible despite strict-front request. Chrome reflections are denser than the matte-to-satin brief.",
+        "initial_result": "candidate with caveats",
+        "retries": 0
+      },
+      "review_image": "../../references/new-object-references/tap-and-wrench-candidate.png"
+    },
+    {
+      "id": "female-chef",
+      "service": "At-home chef",
+      "subject": "female chef",
+      "change": "white chef coat and simple white chef hat",
+      "mass_count": 1,
+      "rationale": "Canonical character regression case; wardrobe communicates the service without props.",
+      "planner_seconds": 0.005894292000000009,
+      "plan": {
+        "subject": "female chef",
+        "requested_change": "Create the requested female chef service variant using the same character. white chef coat and simple white chef hat",
+        "mode": "base_edit",
+        "base_path": "references/characters/base/base-female-eyes-open.png",
+        "references": [],
+        "must_preserve": "identity, orientation, perspective, crop, proportions, optical size, lighting, existing shadows, materials, and untouched parts",
+        "background": "#f5f5f5",
+        "export_policy": "contain-and-composite-only",
+        "subject_kind": "character",
+        "orientation": "front-bust",
+        "prompt_template": "base-image-edit",
+        "service": "At-home chef"
+      },
+      "status": "reviewed-needs-framing-correction",
+      "actual_prompt": "Edit the supplied canonical UC female character base to depict an at-home female chef. This image is the actual edit target: preserve the same face identity, expression, open brown eyes, skin tone, sculpted brown hair with side ponytail, proportions, front camera, lighting and material fidelity. Change only wardrobe: add a simple white chef coat with restrained molded seam ridges and a compact white chef hat, no badge, buttons with text, apron, tools or props. Keep a single bust with head, neck, shoulders and upper chest, rounded lower edge; no hands or arms or waist. Retain the base's framing and scale relationships; keep the entire hat and bust within comfortable margins on the requested landscape canvas. Premium UC matte-to-satin tactile skeuomorphic finish, no extra hair strands. Solid #f5f5f5 background, 1024x768 landscape PNG. Preserve existing shadows; do not add cast/drop/contact/floor shadows. No scene, logos or text. Return the edited image and explicit local source path.\n",
+      "source_returned": "imagegen-returned/exec-805c6408-3219-49e9-b444-1ba53bb8dc9c.png",
+      "source_copy": "local-benchmark-sources/female-chef.png",
+      "source_sha256": "f92dac21f728179272c35363b6b59b0d663a72027bf3b3f86f75aa5f81e418ef",
+      "render_seconds": 22.297,
+      "export_seconds": 0.08920875,
+      "output": "workspace-assets/female-chef-skeuo-uc.png",
+      "output_sha256": "be6f4101861ded17177b6de273722a54969531f602698aec5fa61773e0f676c7",
+      "export_properties": {
+        "size": "1024x768",
+        "mode": "RGBA",
+        "opaque": true,
+        "canvas_background": "#f5f5f5",
+        "perimeter_match_fraction": 0.21480446927374303
+      },
+      "input_bytes": 852392,
+      "visual_review": {
+        "reviewer": "model",
+        "user_approved": false,
+        "notes": "Chef role reads clearly; open eyes, side ponytail and UC face family retained. Oversized hat leaves only a narrow top margin and the bust fills nearly the whole image height. One focused hat-size correction requested. Exact pixel identity is not established.",
+        "initial_result": "needs framing correction",
+        "retries": 1
+      },
+      "review_image": "female-chef.png"
+    },
+    {
+      "id": "female-chef-retry",
+      "service": "At-home chef",
+      "subject": "female chef",
+      "rationale": "Focused correction: compact the hat to recover top margin, preserve face and coat.",
+      "is_retry_of": "female-chef",
+      "plan": {
+        "mode": "base_edit",
+        "base_path": "imagegen-returned/exec-805c6408-3219-49e9-b444-1ba53bb8dc9c.png",
+        "references": []
+      },
+      "status": "reviewed-pending-user",
+      "actual_prompt": "Edit this exact UC female-chef icon. Make one focused correction: the chef hat is too tall and leaves almost no top margin. Reduce only the hat's puff height to a compact chef hat, preserving its recognizable band and soft folds; create approximately 10 percent canvas-height clear margin above it. Keep the face, open eyes, expression, skin tone, sculpted side ponytail, white chef coat, all body proportions, subject center, front viewpoint and current bottom edge unchanged. Do not shrink or redesign the face or bust. Preserve all remaining pixels and material character as closely as possible. 1024x768 landscape PNG, maintain the existing light background requested as #f5f5f5. No background extraction, shadow cleanup, extra props, text or logos. Return the edited image and explicit local source path.\n",
+      "source_returned": "imagegen-returned/exec-e6b9601c-f5f8-4776-a237-005a2ff312b1.png",
+      "source_copy": "local-benchmark-sources/female-chef-retry.png",
+      "source_sha256": "feedca901462b196cbd84fe52e517f4c706ea1085deedd4e6c25d962737b10c6",
+      "render_seconds": 23.856,
+      "export_seconds": 0.10453937499999999,
+      "output": "workspace-assets/female-chef-retry-skeuo-uc.png",
+      "output_sha256": "123197a309f7c3fe7599551abdcc3738481736ae11e8e5677f004fd0e2be27b2",
+      "export_properties": {
+        "size": "1024x768",
+        "mode": "RGBA",
+        "opaque": true,
+        "canvas_background": "#f5f5f5",
+        "perimeter_match_fraction": 0.0
+      },
+      "input_bytes": 1129930,
+      "visual_review": {
+        "reviewer": "model",
+        "user_approved": false,
+        "notes": "Hat height and top margin improve visibly. Face remains in the UC family but the edit also subtly changes facial proportions and folds; exact preservation is not established. Bottom margin remains tighter than object candidates.",
+        "initial_result": "focused correction improved top margin; user review pending",
+        "retries": 0
+      },
+      "review_image": "female-chef-retry.png"
+    }
+  ],
+  "skill_commit": "0961b3e88f6523e5cf4a2db274ef18d9ca27b39f",
+  "methodology": {
+    "sample_size": 4,
+    "paired_baseline": false,
+    "generation": "One built-in Image Gen call per case, sequential; service-specific prompt shaping logged separately from planner prompt.",
+    "timing": "Wall time around tool invocation only; excludes human inspection, narration and tool polling. Export time includes decode, contain, composite and PNG save.",
+    "approval": "No user acceptance yet. Visual observations are model review.",
+    "background": "No removal or cleanup. Requested #f5f5f5; preserve actual rendered pixels even when the perimeter differs.",
+    "selection": "Use planner-selected material/form references, including imperfect legacy material matches. No hidden substitution to improve test outcomes."
+  },
+  "summary": {
+    "initial_cases": 4,
+    "additional_edit_calls": 1,
+    "initial_render_median_seconds": 26.009,
+    "initial_render_total_seconds": 105.806,
+    "all_render_total_seconds": 129.662,
+    "initial_export_median_seconds": 0.0902828335,
+    "pending_object_references": 3,
+    "user_approved_outputs": 0,
+    "measured_generation_speed_improvement": null
+  }
+}

@@ -81,7 +81,7 @@ Batches: resolve each subject separately, then render/export one at a time with 
 
 ## Library maintenance
 
-For audits, skill updates or reference intake, communicate findings normally; image-only delivery restrictions apply to rendering tasks. Read `references/reference-library.md` for catalog fields, source roles and approval flow. Use `scripts/validate_reference_bank.py` after changes, not before every icon. Never promote incidental outputs or external photos into style authority automatically.
+For audits, skill updates or reference intake, communicate findings normally; image-only delivery restrictions apply to rendering tasks. Read `references/reference-library.md` for catalog fields, source roles and approval flow. Use `scripts/validate_reference_bank.py` after changes, not before every icon. Never promote incidental outputs or external photos into style authority automatically. The first measured render pilot and pending candidate annotations are in `benchmarks/2026-09-05/REPORT.md`; read only for evaluation or library maintenance.
 
 ## Quiet rendering updates
 
