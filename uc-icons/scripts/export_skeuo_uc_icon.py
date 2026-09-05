@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import argparse
-from collections import deque
 import re
 import sys
 from pathlib import Path
@@ -15,32 +14,15 @@ def slugify(value: str) -> str:
     return slug or "icon"
 
 
-def newest_png(root: Path) -> Path | None:
-    if not root.exists():
-        return None
-    candidates = [p for p in root.rglob("*.png") if p.is_file()]
-    if not candidates:
-        return None
-    return max(candidates, key=lambda p: p.stat().st_mtime)
-
-
 def find_source(explicit: str | None) -> Path:
-    if explicit:
-        source = Path(explicit).expanduser()
-        if source.exists():
-            return source
+    if not explicit:
+        raise ValueError("Explicit source image required. Pass --source <PNG_PATH>.")
+    source = Path(explicit).expanduser()
+    if not source.exists():
         raise FileNotFoundError(f"Source image not found: {source}")
-
-    home = Path.home()
-    roots = [
-        home / ".codex" / "generated_images",
-        home / ".codex",
-        home / "Library" / "Application Support" / "Codex" / "generated_images",
-    ]
-    newest = [p for p in (newest_png(root) for root in roots) if p is not None]
-    if newest:
-        return max(newest, key=lambda p: p.stat().st_mtime)
-    raise FileNotFoundError("No generated PNG found. Pass --source <PNG_PATH>.")
+    if not source.is_file():
+        raise ValueError(f"Source image is not a file: {source}")
+    return source
 
 
 def unique_path(path: Path) -> Path:
@@ -57,171 +39,120 @@ def unique_path(path: Path) -> Path:
 
 BACKGROUND_RGBA = (245, 245, 245, 255)
 TARGET_SIZE = (1024, 768)
-TARGET_ASPECT = TARGET_SIZE[0] / TARGET_SIZE[1]
 
 
-def bake_background(image: Image.Image) -> Image.Image:
-    background = Image.new("RGBA", image.size, BACKGROUND_RGBA)
-    background.alpha_composite(image.convert("RGBA"))
-    return background
+def parse_background(value: str) -> tuple[int, int, int, int]:
+    if value.lower() == "transparent":
+        return (0, 0, 0, 0)
+    if not re.fullmatch(r"#[0-9a-fA-F]{6}", value):
+        raise ValueError("Background must be #RRGGBB or transparent.")
+    return tuple(int(value[index:index + 2], 16) for index in (1, 3, 5)) + (255,)
 
 
-def normalize_opaque_background(image: Image.Image, remove_shadow: bool = False) -> Image.Image:
-    pixels = image.load()
+def fit_to_reference_canvas(
+    image: Image.Image,
+    background_rgba: tuple[int, int, int, int] = BACKGROUND_RGBA,
+) -> Image.Image:
+    """Contain the whole source frame without segmentation, cropping or cleanup."""
+    image = image.convert("RGBA")
     width, height = image.size
+    scale = min(TARGET_SIZE[0] / width, TARGET_SIZE[1] / height)
+    fitted_size = (
+        max(1, min(TARGET_SIZE[0], round(width * scale))),
+        max(1, min(TARGET_SIZE[1], round(height * scale))),
+    )
+    if image.size != fitted_size:
+        image = image.resize(fitted_size, Image.Resampling.LANCZOS)
 
-    def is_light_neutral(x: int, y: int) -> bool:
-        red, green, blue, alpha = pixels[x, y]
-        if alpha != 255:
-            return False
-        channel_spread = max(red, green, blue) - min(red, green, blue)
-        if max(red, green, blue) >= 218 and channel_spread <= 5:
-            return True
-        if not remove_shadow:
-            return False
-        close_to_background = (
-            abs(red - BACKGROUND_RGBA[0]) <= 45
-            and abs(green - BACKGROUND_RGBA[1]) <= 45
-            and abs(blue - BACKGROUND_RGBA[2]) <= 45
-        )
-        return close_to_background and channel_spread <= 18
-
-    queue: deque[tuple[int, int]] = deque()
-    seen: set[tuple[int, int]] = set()
-    for x in range(width):
-        for y in (0, height - 1):
-            if is_light_neutral(x, y):
-                queue.append((x, y))
-                seen.add((x, y))
-    for y in range(height):
-        for x in (0, width - 1):
-            if (x, y) not in seen and is_light_neutral(x, y):
-                queue.append((x, y))
-                seen.add((x, y))
-
-    while queue:
-        x, y = queue.popleft()
-        pixels[x, y] = BACKGROUND_RGBA
-        for nx, ny in ((x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)):
-            if 0 <= nx < width and 0 <= ny < height and (nx, ny) not in seen and is_light_neutral(nx, ny):
-                seen.add((nx, ny))
-                queue.append((nx, ny))
-
-    return image
-
-
-def content_bbox(image: Image.Image) -> tuple[int, int, int, int] | None:
-    pixels = image.load()
-    width, height = image.size
-    min_x, min_y = width, height
-    max_x = max_y = -1
-
-    for y in range(height):
-        for x in range(width):
-            red, green, blue, alpha = pixels[x, y]
-            if alpha == 0:
-                continue
-            is_background = (
-                alpha == 255
-                and abs(red - BACKGROUND_RGBA[0]) <= 8
-                and abs(green - BACKGROUND_RGBA[1]) <= 8
-                and abs(blue - BACKGROUND_RGBA[2]) <= 8
-            )
-            if not is_background:
-                min_x = min(min_x, x)
-                min_y = min(min_y, y)
-                max_x = max(max_x, x)
-                max_y = max(max_y, y)
-
-    if max_x < min_x or max_y < min_y:
-        return None
-    return min_x, min_y, max_x + 1, max_y + 1
-
-
-def fit_to_reference_canvas(image: Image.Image) -> Image.Image:
-    width, height = image.size
-    aspect = width / height
-
-    if abs(aspect - TARGET_ASPECT) <= 0.03:
-        return image.resize(TARGET_SIZE, Image.Resampling.LANCZOS)
-
-    bbox = content_bbox(image)
-    if bbox is not None:
-        left, top, right, bottom = bbox
-        pad_x = max(24, round((right - left) * 0.12))
-        pad_y = max(24, round((bottom - top) * 0.12))
-        crop = image.crop((
-            max(0, left - pad_x),
-            max(0, top - pad_y),
-            min(width, right + pad_x),
-            min(height, bottom + pad_y),
-        ))
+    canvas = Image.new("RGBA", TARGET_SIZE, background_rgba)
+    position = (
+        (TARGET_SIZE[0] - image.width) // 2,
+        (TARGET_SIZE[1] - image.height) // 2,
+    )
+    if background_rgba[3] == 0:
+        # Retain source alpha. Opaque backgrounds are never removed.
+        canvas.paste(image, position)
     else:
-        crop = image
-
-    crop.thumbnail((round(TARGET_SIZE[0] * 0.92), round(TARGET_SIZE[1] * 0.88)), Image.Resampling.LANCZOS)
-    canvas = Image.new("RGBA", TARGET_SIZE, BACKGROUND_RGBA)
-    x = (TARGET_SIZE[0] - crop.size[0]) // 2
-    y = (TARGET_SIZE[1] - crop.size[1]) // 2
-    canvas.alpha_composite(crop, (x, y))
+        # Composite existing alpha only; opaque source pixels keep their colors.
+        canvas.alpha_composite(image, position)
     return canvas
 
 
 def preserve_source_export(image: Image.Image) -> Image.Image:
-    image = bake_background(image)
-
-    if image.size == TARGET_SIZE:
-        return image
-
-    width, height = image.size
-    if abs((width / height) - TARGET_ASPECT) <= 0.01:
-        return image.resize(TARGET_SIZE, Image.Resampling.LANCZOS)
-
-    image.thumbnail(TARGET_SIZE, Image.Resampling.LANCZOS)
-    canvas = Image.new("RGBA", TARGET_SIZE, BACKGROUND_RGBA)
-    x = (TARGET_SIZE[0] - image.size[0]) // 2
-    y = (TARGET_SIZE[1] - image.size[1]) // 2
-    canvas.alpha_composite(image, (x, y))
-    return canvas
+    """Compatibility helper: every export now preserves the complete source frame."""
+    return fit_to_reference_canvas(image)
 
 
-def export_icon(source: Path, subject: str, preserve_source: bool = False) -> Path:
+def inspect_export(
+    image: Image.Image,
+    background_rgba: tuple[int, int, int, int] = BACKGROUND_RGBA,
+) -> dict[str, object]:
+    """Measure output properties; edge agreement is not full background validation."""
+    rgba = image.convert("RGBA")
+    pixels = rgba.load()
+    width, height = rgba.size
+    perimeter = [pixels[x, 0] for x in range(width)]
+    if height > 1:
+        perimeter.extend(pixels[x, height - 1] for x in range(width))
+    for y in range(1, height - 1):
+        perimeter.append(pixels[0, y])
+        if width > 1:
+            perimeter.append(pixels[width - 1, y])
+    if background_rgba[3] == 0:
+        matches = sum(pixel[3] == 0 for pixel in perimeter)
+        canvas_background = "transparent"
+    else:
+        matches = sum(pixel == background_rgba for pixel in perimeter)
+        canvas_background = "#" + "".join(f"{channel:02x}" for channel in background_rgba[:3])
+    return {
+        "size": f"{image.width}x{image.height}",
+        "mode": image.mode,
+        "opaque": rgba.getchannel("A").getextrema() == (255, 255),
+        "canvas_background": canvas_background,
+        "perimeter_match_fraction": matches / len(perimeter),
+    }
+
+
+def export_icon(
+    source: Path,
+    subject: str,
+    preserve_source: bool = False,
+    background: str = "#f5f5f5",
+) -> Path:
+    # preserve_source is retained for existing callers. All modes now preserve
+    # opaque source content, including shadows and the rendered background.
+    background_rgba = parse_background(background)
+    with Image.open(source) as original:
+        image = fit_to_reference_canvas(original, background_rgba)
+
     assets = Path.cwd() / "assets"
     assets.mkdir(parents=True, exist_ok=True)
     output = unique_path(assets / f"{slugify(subject)}-skeuo-uc.png")
-
-    image = Image.open(source).convert("RGBA")
-
-    if preserve_source:
-        image = preserve_source_export(image)
-        image.save(output)
-        return output
-
-    image = normalize_opaque_background(bake_background(image), remove_shadow=True)
-    image = fit_to_reference_canvas(image)
-    image = normalize_opaque_background(image, remove_shadow=True)
-
     image.save(output)
     return output
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Export a Skeuo-UC generated PNG into ./assets.")
+    parser = argparse.ArgumentParser(description="Contain a complete UC icon image in ./assets without background cleanup.")
     parser.add_argument("--subject", required=True, help="Icon subject, used for the output filename.")
-    parser.add_argument("--source", help="Generated PNG path. If omitted, the newest generated PNG is used.")
-    parser.add_argument("--preserve-source", action="store_true", help="Resize an existing archive/service PNG without background or material normalization.")
-    parser.add_argument("--baked", action="store_true", help="Deprecated; Waterlemon icons always use #f5f5f5.")
+    parser.add_argument("--source", required=True, help="Explicit generated, archive, or user-supplied image path.")
+    parser.add_argument("--preserve-source", action="store_true", help="Compatibility flag; all exports now preserve the complete source frame.")
+    parser.add_argument("--background", default="#f5f5f5", help="Canvas padding and existing-alpha composite color (#RRGGBB), or transparent to retain alpha. Never removes an opaque background.")
+    parser.add_argument("--baked", action="store_true", help="Deprecated compatibility flag; no effect. Use --background for explicit variants.")
     args = parser.parse_args()
 
     try:
         source = find_source(args.source)
-        output = export_icon(source, args.subject, preserve_source=args.preserve_source)
+        output = export_icon(source, args.subject, preserve_source=args.preserve_source, background=args.background)
         with Image.open(output) as exported:
+            measured = inspect_export(exported, parse_background(args.background))
             print(f"source={source}")
             print(f"saved={output}")
-            print(f"size={exported.size[0]}x{exported.size[1]}")
-            print(f"mode={exported.mode}")
-            print("background=#f5f5f5")
+            print(f"size={measured['size']}")
+            print(f"mode={measured['mode']}")
+            print(f"opaque={str(measured['opaque']).lower()}")
+            print(f"canvas_background={measured['canvas_background']}")
+            print(f"perimeter_match_fraction={measured['perimeter_match_fraction']:.6f}")
         return 0
     except Exception as exc:
         print(f"error: {exc}", file=sys.stderr)

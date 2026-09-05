@@ -12,7 +12,7 @@ The skill is strongest when paired with visual references and a compact brief. A
 - Edit existing UC icon bases while preserving composition, material finish, crop, lighting, and orientation.
 - Export known service icons from bundled archive assets without unnecessary regeneration.
 - Build people-centric service icons from canonical character bust bases.
-- Normalize final outputs to `1024x768` PNG on UC Grey (Grey 10).
+- Fit final outputs proportionally to `1024x768` PNG; composite existing alpha onto UC Grey (`#f5f5f5`) while preserving opaque rendered pixels.
 
 ## Use-Case Results
 
@@ -103,3 +103,17 @@ Expected output: a `1024x768` PNG in `./assets/` on UC Grey (Grey 10).
 - Do not replace GPT Image 2 / Image Gen with placeholder SVG, HTML/CSS, or other image models unless explicitly testing a fallback.
 - Keep generated output assets outside this repo unless they are deliberately being promoted into the skill archive or example set.
 - This repo is private and intended as a personal log/update source before later migration into a shared team repo.
+
+## September 2026 update
+
+The skill now resolves exact exports, compatible base edits, and new objects through one identity-aware planner. Color or material overlap cannot select an unrelated edit base. New object references have explicit form, material, or composition roles; pending references are excluded.
+
+Background cleanup is intentionally absent. Generation requests solid `#f5f5f5`; export only contains the full frame proportionally and composites existing alpha. It never flood-fills, segments pale surfaces, crops by background color, or removes shadows. Background removal remains a separate manual step. The exporter reports the canvas color and an edge-only diagnostic without claiming full-background verification.
+
+```bash
+python3 uc-icons/scripts/plan_icon.py --subject "Spa for women" --change "remove towel; upholstery beige"
+python3 uc-icons/scripts/validate_reference_bank.py
+PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s uc-icons/tests -v
+```
+
+The package retains all 72 unique source images and 11 character compatibility copies. The new-object bank is ready for deliberately selected references; it contains no new unreviewed imagery. See `uc-icons/references/reference-library.md` for intake and approval fields. Render-time quality and end-to-end speed still require an image-generation benchmark; local regression tests do not establish those outcomes.
