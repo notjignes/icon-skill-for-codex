@@ -28,4 +28,12 @@ Request solid `#f5f5f5` during generation unless the user chooses another backgr
 
 ## Category meaning and inspiration
 
-Choose one recognizable primary product/item for the service. Add one secondary tool/item only when it resolves category ambiguity, and keep it visually subordinate. For example, a dedicated upholstery extractor can communicate upholstery cleaning alone; a tap plus a wrench clarifies repair. Avoid unrelated decorative props. The user identifies Airbnb skeuomorphic iconography as inspiration, translated through the UC archive into tactile miniature objects; this does not authorize importing external references or changing preserved base geometry.
+Choose one recognizable primary product/item for the service. Add one secondary tool/item only when it resolves category ambiguity, and keep it visually subordinate. For example, a dedicated upholstery extractor can communicate upholstery cleaning alone; the approved basin/tap fixture with a readable wrench clarifies plumbing repair. Avoid unrelated decorative props. The user identifies Airbnb skeuomorphic iconography as inspiration, translated through the UC archive into tactile miniature objects; this does not authorize importing external references or changing preserved base geometry.
+
+## Family consistency after rendering
+
+A recognizable item can still fail UC style. Front or true side means no unrequested oblique camera, top-deck exposure or outlet underside. Compare the primary silhouette, not just the secondary tool. Transfer the matched material surface only: restrained highlight width, roughness and texture density under UC diffuse light. Do not import a different lighting rig or high-contrast mirror chrome from incidental metal parts. If the matching form already establishes the requested finish, use that same image for both roles. Prefer the unchanged approved hood over a newly rendered substitute when no edit is needed.
+
+## Small-scale fixture and tool logic
+
+One primary item may be an assembled fixture with functional parts. The user-selected plumber icon is the basin plus attached tap, with a substantial coral-grip wrench across its lower foreground. Preserve that hierarchy and overlap; a detached oversized tap and miniature floating wrench failed user review. Evaluate the whole icon at 48–96 px, where jaws, grip and silhouette must survive. Material matching is not blanket matting: the plumber metal has smooth broad restrained highlights with minimal grain, ceramic and rubber have separate responses. Use returned component-specific material_scope guidance when present.

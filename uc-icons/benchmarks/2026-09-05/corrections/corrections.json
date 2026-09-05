@@ -1,0 +1,55 @@
+{
+  "user_decision": "Use original Plumber basin/tap fixture and substantial coral-grip wrench; reject standalone tap variants.",
+  "material_fix": "Component-scoped transfer of faucet/wrench metal; separate ceramic and rubber; prefer matching form own finish; no forced matte/grain.",
+  "chef_reference": "references/characters/insta-help-india.png",
+  "renders": [
+    {
+      "id": "plumber-side-rejected",
+      "image": "plumber-side-rejected.png",
+      "source_returned": "exec-f01fecaa-2dc4-4eef-8e2e-f93d69f8e540.png",
+      "sha256": "f0b4dc7460c9f73d82956d853549a990ca2cdf4ed4318fee724d7d5e2bab58ff",
+      "prompt": "Edit the supplied approved UC Plumber icon to make a compact tap-and-wrench variant. The supplied archive is the visual authority for soft neutral lighting, understated grey metal, low-contrast broad highlights, material softness and miniature tactile rendering. Remove the basin and keep only a simplified basin mixer tap plus its smaller adjustable wrench. Change the primary tap camera to a TRUE RIGHT-FACING SIDE ELEVATION, orthographic at the tap centerline: one flat side silhouette with upright cylinder, horizontal lever and spout extending right; exactly zero yaw toward the viewer and zero up/down camera tilt. The circular spout outlet faces down and is NOT visible as a dark ellipse; no visible top deck, top lever surface or underside cavity. Do not use three-quarter product-photography perspective. Keep the whole tap dominant, with one smaller front-readable wrench lying horizontally beside its lower edge as a subordinate repair cue; exactly two items and no floating decorative parts. Preserve the archive's restrained satin grey metal and diffuse light; eliminate mirror chrome, sharp black reflection bands, glints and dense photographic detail. Keep the wrench's small muted coral grip from the archive. 1024x768 landscape PNG, centered compact group, full subject with margins similar to the archive, solid #f5f5f5 background. No scene, text, logos, shadow addition or background removal. Return edited image and explicit local source path.\n",
+      "render_seconds": 22.519,
+      "status": "rejected_by_user",
+      "review": "Standalone tap and undersized wrench; grainy dull metal. Superseded by exact archive fixture."
+    },
+    {
+      "id": "chef-neutral",
+      "image": "chef-neutral.png",
+      "source_returned": "exec-218a3771-0986-440a-9b9a-f9827af1b526.png",
+      "sha256": "d4ac03800ef320a694c8014809760dde58e70cedf5b94fec0cfcc362eb18ade3",
+      "prompt": "Edit this exact approved UC InstaHelp female character into a chef. Treat the supplied image as the actual image-edit base and preserve its character and proportions, not just its general inspiration. Change only purple dress/white apron into a simple white chef jacket and add a very compact white chef cap. Keep the existing shallow shoulder-and-upper-chest silhouette, its rounded bottom edge, shoulder width, head size, face-to-bust ratio, neck length and exact front camera. DO NOT extend the torso, add more chest or shrink the face to fit clothing. Keep the same large face, almond brown eyes, soft brows, small closed mouth, sculpted brown hair and existing low side bun. Keep the skin the SAME muted neutral light beige as this reference, with the SAME soft low-contrast diffuse lighting; do not add orange saturation, golden/tanned warmth, stronger cheek glow, shiny lips or dramatic highlights. Preserve smooth simplified UC material texture and quiet shadows on the face. The compact chef cap replaces a little of the upper hair volume and should remain close to the original head envelope; no tall inflated toque. White jacket with small collar and subtle molded seams, no bulky lapels or realistic fabric folds, no tools, extra props or text. 1024x768 landscape PNG. Match the source's full-frame optical placement and short bust crop; preserve the base face scale and bottom boundary. Solid #f5f5f5 background, no cast/floor shadow, no background cleanup. Return the edited image and explicit local source path.\n",
+      "render_seconds": 25.25,
+      "status": "candidate_for_review",
+      "review": "Selected as closest current match to InstaHelp skin and shallow bust. Cap margin is tight; not pixel-identical or user-approved."
+    },
+    {
+      "id": "chef-spacing",
+      "image": "chef-spacing.png",
+      "source_returned": "exec-8b372db5-3557-459f-8b42-b62d39bf83af.png",
+      "sha256": "29d0f112e1b19c40cec3d01b9ed68f281c4f324f998a8cb72fab089e83cb055a",
+      "prompt": "Make one precise edit to this UC chef icon: the small chef cap needs visible top breathing room. Lower the white cap INTO the upper hair envelope, replacing only the uppermost hair under the cap as needed, so its entire top contour sits at least 32 pixels below the top of a 1024x768 canvas. Do not put the cap above the existing hair volume. Keep the SAME face size and position, skin color, eyes, low bun, neck, white coat, shoulder silhouette and bottom crop. Do not shrink, recolor, relight, reframe or redesign the character. Keep the compact low white chef cap and all other content unchanged. Full cap visible; no clipping. Preserve existing light background requested as #f5f5f5. Return the edited image and explicit local source path.\n",
+      "render_seconds": 19.471,
+      "status": "not_selected",
+      "review": "Spacing improved but re-edit warmed/reshaped the face; not a successful preservation edit."
+    },
+    {
+      "id": "chef-narrow-edit",
+      "image": "chef-narrow-edit.png",
+      "source_returned": "exec-13610d9a-7fee-4576-ac65-df6eec13acaa.png",
+      "sha256": "6b8b7032db1539e74d52b6834f316614767e1b87bc88f5b46be783289c720056",
+      "prompt": "Precise wardrobe edit of this exact UC character image. Preserve the face, ears, neck, skin colors, eyes, mouth, hair texture, side bun, lighting, shoulder outline and crop unchanged. Replace only the purple uniform and apron with a simple white chef coat. Add a small white chef cap INSIDE the existing upper hair silhouette: its top at the same height as the current top of the hair, not above it; the cap covers/replaces the upper central hair rather than increasing head height. Keep the same head size, shoulder width, shallow upper-chest crop, bottom edge and 1024x768 frame. Do not render a new face. No orange or golden color grading, no extra warmth, no relighting, no glossy skin or sharpening. Preserve exact base neutral beige skin. Only clothing and the small cap change; no other additions. Background #f5f5f5, no shadow addition or background removal. Return image and explicit local source path.\n",
+      "render_seconds": 21.392,
+      "status": "not_selected",
+      "review": "Returned to original source with fewer instructions; remaining warmth and tight cap placement make it less suitable than chef-neutral."
+    }
+  ],
+  "restored_exports": [
+    "plumber-restored.png",
+    "hood-restored.png"
+  ],
+  "selected_chef": "chef-selected.png",
+  "chef_user_approved": false,
+  "all_exports": "1024x768 opaque PNG; no background cleanup",
+  "total_correction_render_seconds": 88.63199999999999
+}

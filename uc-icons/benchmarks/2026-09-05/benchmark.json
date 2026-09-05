@@ -135,7 +135,7 @@
         "prompt_template": "new-generation",
         "service": "Kitchen chimney cleaning"
       },
-      "status": "reviewed-pending-user",
+      "status": "rejected-by-user",
       "actual_prompt": "Create one Waterlemon UC icon of a kitchen chimney hood for the UC kitchen chimney cleaning service. Use a single isolated hood with its vertical flue and broad extraction canopy. Straight front view, near-orthographic. 1024x768 landscape PNG, solid #f5f5f5 background, full subject centered with comfortable margins. Premium tactile skeuomorphic 3D micro-object, softened edges, simplified believable brushed steel with restrained dark control panel, soft studio light and clear silhouette at small UI size. Image 1 is a form reference: transfer hood shape and functional parts only, not palette, framing or shadows. Image 2 is a material reference: transfer brushed-metal surface and highlight response only, not dumbbell shape, knurled pattern, camera, palette or shadows. No cast/drop/contact/floor shadow, no text or logos, no people, tools, kitchen room or clutter. No extra items. Return the generated image and explicit local source path.\n",
       "source_returned": "imagegen-returned/exec-c309a4f9-42c2-4d64-bbe9-082531fa5e6d.png",
       "source_copy": "local-benchmark-sources/chimney-hood.png",
@@ -158,7 +158,8 @@
         "user_approved": false,
         "notes": "First-pass model review: recognizable single hood close to existing archive form; brushed texture more pronounced. Existing archive remains preferred for ordinary export.",
         "initial_result": "candidate with caveats",
-        "retries": 0
+        "retries": 0,
+        "user_feedback": "Rejected; see top-level user_feedback and CORRECTIONS.md"
       },
       "review_image": "../../references/new-object-references/chimney-hood-candidate.png"
     },
@@ -209,7 +210,7 @@
         "prompt_template": "new-generation",
         "service": "Plumbing repair"
       },
-      "status": "reviewed-pending-user",
+      "status": "rejected-by-user",
       "actual_prompt": "Create one Waterlemon UC service icon for plumbing repair: a basin mixer tap as the dominant item, with one smaller adjustable wrench beside it to make repair clear. Exactly two items, no basin, water, pipes or extra props. Centered compact balanced silhouette, tap larger than wrench. Straight front view, near-orthographic; keep the tap spout recognizable. 1024x768 landscape PNG, solid #f5f5f5 background, entire subjects visible with comfortable margins. Premium tactile skeuomorphic 3D micro-objects, softened edges, believable simplified polished chrome metal, broad controlled studio highlights rather than mirror reflections of a room. The reference truck supplies only metal/chrome surface and highlight behavior; do not copy truck identity, red/yellow colors, camera, shadows, framing or tire textures. No cast/drop/contact/floor shadow, text, logos, hands or scene clutter. Return the generated image and explicit local source path.\n",
       "source_returned": "imagegen-returned/exec-b647a6b3-fc1a-4ab7-86b0-c3eaecbe5aec.png",
       "source_copy": "local-benchmark-sources/tap-and-wrench.png",
@@ -232,7 +233,8 @@
         "user_approved": false,
         "notes": "First-pass model review: tap dominates and wrench supplies a clear repair cue. Tap is predominantly side-profile with outlet underside visible despite strict-front request. Chrome reflections are denser than the matte-to-satin brief.",
         "initial_result": "candidate with caveats",
-        "retries": 0
+        "retries": 0,
+        "user_feedback": "Rejected; see top-level user_feedback and CORRECTIONS.md"
       },
       "review_image": "../../references/new-object-references/tap-and-wrench-candidate.png"
     },
@@ -258,7 +260,7 @@
         "prompt_template": "base-image-edit",
         "service": "At-home chef"
       },
-      "status": "reviewed-needs-framing-correction",
+      "status": "rejected-by-user",
       "actual_prompt": "Edit the supplied canonical UC female character base to depict an at-home female chef. This image is the actual edit target: preserve the same face identity, expression, open brown eyes, skin tone, sculpted brown hair with side ponytail, proportions, front camera, lighting and material fidelity. Change only wardrobe: add a simple white chef coat with restrained molded seam ridges and a compact white chef hat, no badge, buttons with text, apron, tools or props. Keep a single bust with head, neck, shoulders and upper chest, rounded lower edge; no hands or arms or waist. Retain the base's framing and scale relationships; keep the entire hat and bust within comfortable margins on the requested landscape canvas. Premium UC matte-to-satin tactile skeuomorphic finish, no extra hair strands. Solid #f5f5f5 background, 1024x768 landscape PNG. Preserve existing shadows; do not add cast/drop/contact/floor shadows. No scene, logos or text. Return the edited image and explicit local source path.\n",
       "source_returned": "imagegen-returned/exec-805c6408-3219-49e9-b444-1ba53bb8dc9c.png",
       "source_copy": "local-benchmark-sources/female-chef.png",
@@ -280,7 +282,8 @@
         "user_approved": false,
         "notes": "Chef role reads clearly; open eyes, side ponytail and UC face family retained. Oversized hat leaves only a narrow top margin and the bust fills nearly the whole image height. One focused hat-size correction requested. Exact pixel identity is not established.",
         "initial_result": "needs framing correction",
-        "retries": 1
+        "retries": 1,
+        "user_feedback": "Rejected; see top-level user_feedback and CORRECTIONS.md"
       },
       "review_image": "female-chef.png"
     },
@@ -295,7 +298,7 @@
         "base_path": "imagegen-returned/exec-805c6408-3219-49e9-b444-1ba53bb8dc9c.png",
         "references": []
       },
-      "status": "reviewed-pending-user",
+      "status": "rejected-by-user",
       "actual_prompt": "Edit this exact UC female-chef icon. Make one focused correction: the chef hat is too tall and leaves almost no top margin. Reduce only the hat's puff height to a compact chef hat, preserving its recognizable band and soft folds; create approximately 10 percent canvas-height clear margin above it. Keep the face, open eyes, expression, skin tone, sculpted side ponytail, white chef coat, all body proportions, subject center, front viewpoint and current bottom edge unchanged. Do not shrink or redesign the face or bust. Preserve all remaining pixels and material character as closely as possible. 1024x768 landscape PNG, maintain the existing light background requested as #f5f5f5. No background extraction, shadow cleanup, extra props, text or logos. Return the edited image and explicit local source path.\n",
       "source_returned": "imagegen-returned/exec-e6b9601c-f5f8-4776-a237-005a2ff312b1.png",
       "source_copy": "local-benchmark-sources/female-chef-retry.png",
@@ -317,7 +320,8 @@
         "user_approved": false,
         "notes": "Hat height and top margin improve visibly. Face remains in the UC family but the edit also subtly changes facial proportions and folds; exact preservation is not established. Bottom margin remains tighter than object candidates.",
         "initial_result": "focused correction improved top margin; user review pending",
-        "retries": 0
+        "retries": 0,
+        "user_feedback": "Rejected; see top-level user_feedback and CORRECTIONS.md"
       },
       "review_image": "female-chef-retry.png"
     }
@@ -339,8 +343,20 @@
     "initial_render_total_seconds": 105.806,
     "all_render_total_seconds": 129.662,
     "initial_export_median_seconds": 0.0902828335,
-    "pending_object_references": 3,
+    "pending_object_references": 1,
     "user_approved_outputs": 0,
-    "measured_generation_speed_improvement": null
+    "measured_generation_speed_improvement": null,
+    "rejected_object_references": 2
+  },
+  "user_feedback": {
+    "date": "2026-09-05",
+    "rejected_cases": [
+      "tap-and-wrench",
+      "chimney-hood",
+      "female-chef",
+      "female-chef-retry"
+    ],
+    "reason": "Oblique plumber primary view; inconsistent hood metal/lighting; orange chef skin and mismatched crop.",
+    "corrections_report": "CORRECTIONS.md"
   }
 }

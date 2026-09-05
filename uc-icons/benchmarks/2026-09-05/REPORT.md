@@ -1,5 +1,7 @@
 # UC Icons render benchmark — 2026-09-05
 
+**Later user review rejected the plumber, hood and both chef attempts.** The observations below are the historical first-pass model review, not acceptance. Two object candidates are now rejected; only the extractor remains pending. See [corrections](CORRECTIONS.md).
+
 Four first-pass cases plus one targeted character edit, using built-in Image Gen and skill commit `0961b3e`. This is a new baseline, not a before/after generation-speed claim. Outputs are model-reviewed candidates; none has user approval.
 
 [Open the visual review](index.html) · [Exact prompts, input roles, hashes and measurements](benchmark.json)

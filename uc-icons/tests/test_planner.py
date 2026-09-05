@@ -64,12 +64,17 @@ class RoutingTests(unittest.TestCase):
             self.assertEqual(find_candidates(subject)['mode'],'base_edit')
         self.assertNotEqual(plan_icon('ceiling fan with 5 blades')['mode'],'export_existing')
 
+    def test_explicit_generic_avatar_still_selects_canonical_source(self):
+        self.assertEqual(Path(plan_icon("female avatar eyes open")["base_path"]).name,"base-female-eyes-open.png")
+        self.assertEqual(Path(plan_icon("female chef")["base_path"]).name,"insta-help-india.png")
+
     def test_all_character_bases(self):
         for gender in ['female','male']:
             for eyes in ['open','closed']:
                 plan=plan_icon(f'{gender} technician eyes {eyes}')
                 self.assertEqual(plan['mode'],'base_edit')
-                self.assertEqual(Path(plan['base_path']).name,f'base-{gender}-eyes-{eyes}.png')
+                expected='insta-help-india.png' if (gender,eyes)==('female','open') else f'base-{gender}-eyes-{eyes}.png'
+                self.assertEqual(Path(plan['base_path']).name,expected)
 
     def test_human_with_object_stays_human(self):
         for subject in ['woman carrying bucket','female salon client with hair dryer','maid with vacuum','female car driver','female AC technician','male washing machine technician']:

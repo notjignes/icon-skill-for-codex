@@ -31,6 +31,8 @@ Accept an image the user deliberately supplies or selects, or a candidate genera
 5. Present the concrete image and annotations for the user's selection/approval during intake. Existing explicit approval for that image and role is sufficient. Only then set `approval_status=approved`. Rejected and pending entries never participate in selection or teach identity aliases.
 6. Validate the package. Confirm the new reference helps a held-out subject before broadening its use. Record the subject, selected roles, user feedback and whether it reduced retries; do not promote one successful output into a universal rule.
 
+For material references, optional `material_scope` names the exact component and its observed highlight/roughness behavior. Keep different substances separate; a faucet in a basin image must not transfer porcelain response to metal. This annotation is applied only to the material role, never to form-only use.
+
 Required identity/path/state fields are checked by the validator. Keep the CSV header even when the bank has no rows. Existing legacy fields remain supported for compatibility.
 
 ## Composition options

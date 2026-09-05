@@ -9,7 +9,7 @@ Use only when the subject is a service worker or client. Object icons never inhe
 
 ## Base and composition
 
-An exact curated character asset is exported unchanged. Explicit edits to a named character asset preserve that asset as the edit target. New service-character variants use a canonical base as the edit target, never merely as a style reference. Canonical files in `characters/base/` are `base-female-eyes-open.png`, `base-female-eyes-closed.png`, `base-male-eyes-open.png`, and `base-male-eyes-closed.png`.
+An exact curated character asset is exported unchanged. Explicit edits to a named character asset preserve that asset as the edit target. New service-character variants use the planner-returned curated base as the edit target, never merely as a style reference. The user-selected InstaHelp master (`insta-help-india.png`) is the calibrated base for open-eyed female service variants: its neutral beige skin, soft light, larger face-to-bust ratio and shallow upper-chest crop win over the warmer generic bare-shoulder base. Use the generic canonical files for other gender/eye states, or an explicitly user-selected curated source. Canonical files in `characters/base/` are `base-female-eyes-open.png`, `base-female-eyes-closed.png`, `base-male-eyes-open.png`, and `base-male-eyes-closed.png`.
 
 Choose requested gender and eye state first. Active workers default to open eyes; salon, spa, massage and resting clients default to closed eyes. Select the matching base instead of repainting its eyes. If the required base or base-preserving editing is unavailable, report the blocker; do not automatically substitute reference-only or text-only generation.
 
@@ -19,8 +19,8 @@ External person references supply requested clothing, treatment, mood or hair cu
 
 ## Character appearance
 
-- Premium stylised designer-vinyl bust: head, neck, softly sloped shoulders and upper chest, with a clean rounded lower edge. Preserve the base's slightly oversized head, roughly 40–45% of icon height. No arms, hands, waist or full body by default.
-- Smooth light-medium warm beige skin with matte subsurface warmth; preserve the same skin tone throughout the family. No pores, mottling, wrinkles or neck creases.
+- Premium stylised designer-vinyl bust: head, neck, softly sloped shoulders and upper chest, with a clean rounded lower edge. Preserve the actual selected base’s head-to-shoulder and face-to-bust proportions; do not impose a universal numeric head-height ratio. No arms, hands, waist or full body by default.
+- Match the selected curated base’s skin hue, saturation and neutral diffuse illumination. Do not warm it toward orange or increase contrast; descriptive “warmth” must not override the source pixels. No pores, mottling, wrinkles or neck creases.
 - Thick sculpted dark-brown brows; almond dark-brown eyes with one white catchlight; simple nose without nostril openings; coral-pink lips in a closed micro-smile; simplified ears. Closed eyes use smooth downward lash-line crescents. No teeth, eyelash strands, inner-ear detail, freckles or makeup detail.
 - Preserve warm/medium-brown hair as satin-plastic or polished-clay masses: broad flow bands and curved highlights, shallow low-contrast grooves, rounded edges. Female shapes may use bun, low ponytail, compact sweep or towel cover; male shapes may use short crop, side sweep or cap-compressed hair. No individual fibers, flyaways, frizz, wet shine, sharp white streaks, scalp detail or sparkle noise.
 - Smooth moulded fabric with soft seam ridges; towels use fine uniform simplified nubble. Matte-to-satin finish, narrow satin highlights on hair/lips. Calm, composed expression; no dramatic emotion, photorealism, mascot/Funko exaggeration or random jewellery, glasses, badges, logos and text.
@@ -46,11 +46,13 @@ Only two side accents are sanctioned, never together:
 - **Live-in house:** lower-right beside the bust, shoulder height or below, about one-third its height; matte white/cream cottage, terracotta-orange tiled gable roof, simple wooden door. Keep clearly secondary; no windows needed.
 - **Luxury sparkles:** two or three small asymmetric four-point golden-yellow diamonds around the upper bust, soft satin gradients. No halo, ring or particle cloud.
 
+When adding a hat, keep the selected source’s face size, shoulder width and bottom crop. Fit a compact role cue around the existing head silhouette rather than shrinking the face to fit a tall hat or extending the torso. If that cannot fit the requested framing, use a smaller hat. Compare with the selected source after rendering; preserving a previous failed edit is insufficient.
+
 ## Compact edit prompt
 
 ```text
 Subject: <SERVICE / ROLE>.
-Edit the attached canonical UC base. Requested change: <CHANGE>.
+Edit the attached planner-selected curated UC base. Requested change: <CHANGE>.
 Wardrobe/treatment: <REQUIRED DETAILS FROM ABOVE OR REQUESTED UNIFORM>.
 Accent: <NONE / SANCTIONED ACCENT DETAILS>.
 Crop: preserve base, except <EXPLICIT USER OVERRIDE OR NONE>.

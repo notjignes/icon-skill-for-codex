@@ -45,13 +45,16 @@ def _plan_icon(subject: str, change: str = '', new_design: bool = False, gender:
         if not gender:
             return {**result,'mode':'ask_user','question':'Choose the canonical character base: female or male.','candidates':['female','male']}
         eyes=eyes or ('closed' if 'closed' in query else 'open' if 'open' in query else 'closed' if query & {'spa','salon','massage','pampering','resting'} else 'open')
-        path=catalog.SKILL_DIR / f'references/characters/base/base-{gender}-eyes-{eyes}.png'
-        if not path.is_file():
+        # User-calibrated open-eyed female service family: the actual InstaHelp
+        # master preserves its neutral skin and shallow bust crop.
+        calibrated_worker = gender == 'female' and eyes == 'open' and not query & {'base','avatar'}
+        path=catalog.SKILL_DIR / ('references/characters/insta-help-india.png' if calibrated_worker else f'references/characters/base/base-{gender}-eyes-{eyes}.png')
+        if not path.is_file() and not calibrated_worker:
             name=f'{"Woman" if gender=="female" else "Man"} face (eyes {eyes}).png'
             fallback=next((r for r in catalog.bases() if r['file']==name),None)
             path=Path(fallback['path']) if fallback else path
         if not path.is_file():
-            return {**result,'mode':'blocked','reason':'Required canonical character base unavailable; do not generate a replacement identity.'}
+            return {**result,'mode':'blocked','reason':'Required curated character base unavailable; do not generate a replacement identity or substitute a differently calibrated base.'}
         return apply_options({**result,'mode':'base_edit','subject_kind':'character','base_path':str(path),'orientation':'front-bust','must_preserve':PRESERVE,'requested_change':f'Create the requested {subject} service variant using the same character.'+(' '+change if change else ''),'prompt_template':'base-image-edit'},composition,material)
 
     if not new_design:
