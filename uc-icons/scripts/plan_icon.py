@@ -22,7 +22,7 @@ def with_base(result: dict, row: dict, change: str) -> dict:
     return {**result,'mode':'base_edit' if change else 'export_existing','base_path':row['path'],'asset_id':row.get('asset_id',''),'orientation':row.get('orientation','unknown'),'requested_change':change,'must_preserve':PRESERVE,'prompt_template':'base-image-edit' if change else 'export'}
 
 
-def plan_icon(subject: str, change: str = '', new_design: bool = False, gender: str = '', eyes: str = '', composition: str = '', material: str = '', max_refs: int = 2) -> dict:
+def _plan_icon(subject: str, change: str = '', new_design: bool = False, gender: str = '', eyes: str = '', composition: str = '', material: str = '', max_refs: int = 2) -> dict:
     if not subject.strip():
         raise ValueError('An icon subject is required')
     # Preserve compatibility with older whole-request --subject invocations.
@@ -105,10 +105,20 @@ def apply_options(result: dict, composition: str, material: str) -> dict:
     return result
 
 
+def plan_icon(subject: str, change: str = '', new_design: bool = False, gender: str = '', eyes: str = '', composition: str = '', material: str = '', max_refs: int = 2, service: str = '') -> dict:
+    plan = _plan_icon(subject, change, new_design, gender, eyes, composition, material, max_refs)
+    if service.strip():
+        plan['service'] = service.strip()
+        if plan.get('prompt'):
+            plan['prompt'] += f' Intended UC service/category: {service.strip()}. Make the chosen item(s) communicate this category clearly; do not add unrequested props.'
+    return plan
+
+
 def main() -> None:
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--subject',required=True,help='Object or exact service name; put edits in --change.')
     parser.add_argument('--change',default='')
+    parser.add_argument('--service',default='',help='Original service/category represented by the selected subject.')
     parser.add_argument('--new-design',action='store_true',help='Skip object reuse; characters still preserve a canonical base.')
     parser.add_argument('--gender',choices=('female','male'),default='')
     parser.add_argument('--eyes',choices=('open','closed'),default='')
@@ -116,7 +126,7 @@ def main() -> None:
     parser.add_argument('--material',default='')
     parser.add_argument('--max-refs',type=int,choices=range(0,6),default=2)
     args=parser.parse_args()
-    print(json.dumps(plan_icon(args.subject,args.change,args.new_design,args.gender,args.eyes,args.composition,args.material,args.max_refs),indent=2))
+    print(json.dumps(plan_icon(args.subject,args.change,args.new_design,args.gender,args.eyes,args.composition,args.material,args.max_refs,args.service),indent=2))
 
 
 if __name__=='__main__':

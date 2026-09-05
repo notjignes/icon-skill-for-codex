@@ -22,7 +22,7 @@ One approved image can have multiple roles separated by semicolons. Approval for
 
 ## Selected-reference intake
 
-Accept only an image the user deliberately supplies or selects. Do not scrape websites or harvest generated outputs automatically.
+Accept an image the user deliberately supplies or selects, or a candidate generated in an explicitly requested library-expansion test. Generated test candidates remain `pending` until the user selects the concrete image and its intended roles. Do not scrape websites or harvest incidental outputs automatically.
 
 1. Inspect that selected image and establish what the user wants it to teach. Preserve the original file unchanged. Check its SHA-256 against existing masters before copying; use a canonical alias when identical.
 2. Add a row in `new-object-references/MANIFEST.csv`, initially `pending`. Set a relative `image_path`, hash and content-derived `asset_id`; include the original source location in `provenance_source`. New files belong in this folder, not the immutable service archive.

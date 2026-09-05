@@ -21,7 +21,7 @@ FAMILIES = {
  'air-cooler': ['air cooler'], 'air-conditioner': ['air conditioner','split ac','ac unit','ac'],
  'water-heater': ['water heater','geyser'], 'refrigerator': ['refrigerator','fridge'],
  'washing-machine': ['washing machine','washer'], 'microwave': ['microwave'],
- 'ceiling-fan': ['ceiling fan'], 'kitchen-chimney': ['kitchen chimney','range hood'],
+ 'ceiling-fan': ['ceiling fan'], 'kitchen-chimney': ['kitchen chimney','range hood','chimney hood'],
  'hair-dryer': ['hair dryer','hairdryer'], 'vacuum': ['vacuum cleaner','vacuum'],
  'gift-box': ['gift box','present box'], 'truck': ['box truck','truck'],
  'van': ['van'], 'car': ['car','sedan'], 'bus': ['bus'], 'suitcase': ['suitcase','luggage'],

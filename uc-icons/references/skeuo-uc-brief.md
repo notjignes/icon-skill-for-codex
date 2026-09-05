@@ -25,3 +25,7 @@ No readable text, logos, branding, watermarks or barcodes. Avoid catalogue photo
 Add only the relevant details above when attached references do not communicate them. Always specify subject and requested change. For edits, identify the base and preserve untouched geometry, materials, framing and lighting.
 
 Request solid `#f5f5f5` during generation unless the user chooses another background. Final output is `1024x768` PNG. Export proportionally contains the whole source frame and composites existing alpha; it never performs background cleanup, threshold segmentation, shadow removal or colour-based cropping. Background removal remains manual post-processing. Keep light, material finish, simplification and optical size coherent across a set.
+
+## Category meaning and inspiration
+
+Choose one recognizable primary product/item for the service. Add one secondary tool/item only when it resolves category ambiguity, and keep it visually subordinate. For example, a dedicated upholstery extractor can communicate upholstery cleaning alone; a tap plus a wrench clarifies repair. Avoid unrelated decorative props. The user identifies Airbnb skeuomorphic iconography as inspiration, translated through the UC archive into tactile miniature objects; this does not authorize importing external references or changing preserved base geometry.

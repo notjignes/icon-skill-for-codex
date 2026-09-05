@@ -24,6 +24,12 @@ class RoutingTests(unittest.TestCase):
                 self.assertEqual(plan['base_path'],row['path'])
                 self.assertEqual(plan['references'],[])
 
+    def test_chimney_hood_reuses_the_matching_archive(self):
+        plan=plan_icon("chimney hood",service="Kitchen chimney cleaning")
+        self.assertEqual(plan["mode"],"export_existing")
+        self.assertEqual(plan["base_path"],plan_icon("kitchen chimney")["base_path"])
+        self.assertEqual(plan["references"],[])
+
     def test_unrelated_objects_cannot_be_edit_bases(self):
         for subject in ['black transportation van','blue suitcase','gift box','office chair','table lamp','basin mixer tap','electric car charging station','refrigerator cover']:
             with self.subTest(subject=subject):
@@ -99,6 +105,16 @@ class RoutingTests(unittest.TestCase):
     def test_missing_character_base_blocks(self):
         with tempfile.TemporaryDirectory() as folder,patch.object(catalog,'SKILL_DIR',Path(folder)),patch.object(catalog,'BASE_MANIFEST',Path(folder)/'missing.csv'):
             self.assertEqual(plan_icon('female chef')['mode'],'blocked')
+
+    def test_original_service_is_retained_with_visual_subject(self):
+        plan=plan_icon('basin mixer tap with adjustable wrench',new_design=True,service='Plumbing repair')
+        self.assertEqual(plan['service'],'Plumbing repair')
+        self.assertIn('Plumbing repair',plan['prompt'])
+        self.assertIn('basin mixer tap',plan['prompt'])
+        self.assertIn('wrench',plan['prompt'])
+        plan=plan_icon('female chef',service='At-home chef')
+        self.assertEqual(plan['service'],'At-home chef')
+        self.assertEqual(plan['mode'],'base_edit')
 
     def test_cli_outputs_json(self):
         import json

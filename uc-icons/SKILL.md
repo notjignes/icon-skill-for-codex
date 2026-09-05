@@ -5,7 +5,7 @@ description: Generate, edit, export, or maintain Urban Company Waterlemon tactil
 
 # UC Icons
 
-Create one UC icon per subject. Prefer exact archive export, then a compatible base edit, then new object generation. Keep object identity separate from material/style resemblance.
+Create one recognizable UC service/category icon per request. Prefer exact archive export, then a compatible base edit, then new object generation. Keep object identity separate from material/style resemblance.
 
 ## Contract
 
@@ -21,6 +21,14 @@ The working directory is an output destination, not a reference bank. Use only b
 
 Pass local inputs only through explicit `referenced_image_paths`; never use `num_last_images_to_include`. Inspect the exact chosen edit target if the runtime requires it; do not browse unrelated candidates. Never infer a generated source by modification time. A current image result without an explicit local source path blocks export; report it plainly.
 
+## Represent the category first
+
+When the user names a service rather than an object, decide what visual best identifies that category before looking up an asset. Prefer one product/item: a chimney hood for chimney service, a dedicated upholstery extractor for upholstery cleaning. Use a second tool/item only when the first could imply the wrong category: a tap plus one wrench can distinguish plumbing repair from tap shopping. Keep a clear primary mass and subordinate cue; never add a prop just to decorate or fill space. Preserve an explicitly requested subject. Exact known service aliases still export their approved archive icon.
+
+Internally record the service, chosen primary item, optional secondary item and why it is necessary. Pass the service using `--service` alongside the chosen `--subject`; the generation prompt must retain both. People-centric categories keep their established canonical-bust exception.
+
+The user identifies Airbnb's skeuomorphic icon language as the inspiration: dimensional, tactile, miniature and approachable, translated into the UC family. UC archive masters remain the visual authority. Do not copy Airbnb logos, import its imagery as approved references, or force every icon into an isometric view. During a visual test, inspect the actual selected inputs and outputs; fix demonstrated inconsistencies with one focused edit rather than accumulating new universal rules.
+
 ## Resolve the request once
 
 Parse the subject by meaning. Put requested modifications into `--change`; do not let a tool or material replace the main subject. An explicitly named source image takes precedence over archive matching: use that exact permitted path as the source/base, and preserve its identity.
@@ -31,7 +39,7 @@ Run one planner command, relative to this skill's directory:
 python3 "<SKILL_DIR>/scripts/plan_icon.py" --subject "<OBJECT OR EXACT SERVICE NAME>" --change "<REQUESTED EDIT, IF ANY>"
 ```
 
-Optional arguments: `--new-design` when explicitly requested; `--gender female|male`; `--eyes open|closed`; `--material "<material/finish>"`; `--composition front|wide-side|slight-top|three-quarter|crossed-pair`. Do not invent a gender or pass a composition override unless the brief chooses one. Keep the default reference budget of two; increase `--max-refs` only when distinct reference roles justify it.
+Optional arguments: `--service "<SERVICE CATEGORY>"` to retain category intent; `--new-design` when explicitly requested; `--gender female|male`; `--eyes open|closed`; `--material "<material/finish>"`; `--composition front|wide-side|slight-top|three-quarter|crossed-pair`. Do not invent a gender or pass a composition override unless the brief chooses one. Keep the default reference budget of two; increase `--max-refs` only when distinct reference roles justify it.
 
 Follow the returned operation:
 
@@ -73,25 +81,29 @@ Batches: resolve each subject separately, then render/export one at a time with 
 
 ## Library maintenance
 
-For audits, skill updates or reference intake, communicate findings normally; image-only delivery restrictions apply to rendering tasks. Read `references/reference-library.md` for catalog fields, source roles and approval flow. Use `scripts/validate_reference_bank.py` after changes, not before every icon. Never promote incidental outputs or external photos into style authority automatically.
+For audits, skill updates or reference intake, communicate findings normally; image-only delivery restrictions apply to rendering tasks. Read `references/reference-library.md` for catalog fields, source roles and approval flow. Use `scripts/validate_reference_bank.py` after changes, not before every icon. Never promote incidental outputs or external photos into style authority automatically. The first measured render pilot and pending candidate annotations are in `benchmarks/2026-09-05/REPORT.md`; read only for evaluation or library maintenance.
 
 ## Quiet rendering updates
 
-For ordinary rendering, avoid setup narration or reference previews. Use at most one brief status line unless runtime updates are needed: `✦ Tiny icon fact: <FACT>`. Choose unpredictably without a randomization tool call; do not repeat a visible fact in the same conversation. State blockers directly. Facts:
+Ordinary generation/edit/export runs are silent apart from a small icon fact and the final asset. No setup narration, reference previews, tool summaries, progress labels or implementation chatter. Prefer one fact initially; use another only if the runtime requires a long-running update. Choose without a randomization tool call, and do not repeat a visible fact in the same conversation. State genuine blockers directly.
 
-- At 16 px, a one-pixel nudge moves 6.25% of the icon's width—tiny grid, enormous drama.
-- Icon families are usually balanced by optical size, not by forcing every object into identical outer bounds.
-- A silhouette test removes colour and texture to check whether the shape is doing enough of the storytelling.
-- Optical centring can look more centred than mathematical centring because visual weight is rarely evenly distributed.
-- Diagonal strokes often need optical compensation to feel as sturdy as vertical and horizontal strokes.
-- Negative space is part of an icon's anatomy; it is designed, not merely left over.
-- Circles and pointed forms may overshoot a shared grid slightly so they look the same size as square forms.
-- At UI scale, large contrast masses register before tiny surface details get their turn.
-- A consistent light direction can make wildly different objects feel like they belong to one icon family.
-- Removing one weak detail can improve recognition more than adding two decorative ones.
-- Tiny internal gaps usually disappear before the outer silhouette does, so counter-space needs breathing room.
-- Rounded micro-corners often survive downscaling more gracefully than needle-sharp ones.
-- Material response and edge treatment can create skeuomorphic depth even without a cast shadow.
-- A strong icon can share a grid with its siblings without sharing their exact geometry.
-- Small highlights work hardest when they explain material or form, not when they behave like confetti.
-- In a 4:3 canvas, the extra horizontal room can protect a wide object's silhouette from cramped-icon syndrome.
+Codex owns tool-call cards and required inspection telemetry. A skill can suppress assistant narration, not hide those cards; never promise an invisible tool run or disable required inspection to simulate one. Maintenance/research requests may report their findings normally; the render phase uses facts only.
+
+Format: `✦ Tiny icon fact: <FACT>`. Historical facts below are verified in `references/icon-history-sources.md`; do not browse or load that source file during ordinary rendering. Use only the approved wording, without embellishing dates or anecdotes.
+
+- Susan Kare borrowed Apple’s Command symbol from a Swedish sightseeing sign she found in a symbol dictionary.
+- Susan Kare developed early Macintosh graphics by colouring squares on graph paper.
+- Annette Wagner enlarged Apple’s Dogcow spots so users could spot a 2% print-size reduction.
+- Apple Lisa’s rectangular pixels helped push Annette Wagner to replace awkward 3D icons with flatter designs.
+- On Xerox Star, users could print by moving a document icon to a printer icon.
+- Xerox Star’s designers picked icons by looking around their office: documents, folders and file cabinets.
+- Kurita’s 1999 emoji fit into 12×12-pixel grids; NTT DOCOMO released 176 of them.
+- Kurita’s original 176-emoji set contained just five faces: happy, sad, angry, disappointed and dizzy.
+- “Emoji” combines the Japanese words for “picture” and “character”—its name does not come from “emotion.”
+- The Bluetooth symbol combines two runes representing H and B, the initials of King Harald Bluetooth.
+- Paul Rand’s 1981 IBM rebus spelled the company’s name using an eye, a bee and the letter M.
+- The recycling symbol began as architecture student Gary Anderson’s winning entry in a 1970 design competition.
+- Gerald Holtom built the peace symbol from semaphore signals for N and D: nuclear disarmament.
+- The wheelchair accessibility symbol gained its circular head when Karl Montan modified Susanne Koefoed’s original design.
+- The forward-leaning Accessible Icon began as a street-art campaign placing transparent stickers over existing accessibility signs.
+- Tokyo’s 1964 Olympics used 59 pictograms: 20 for sports and 39 to help visitors find their way.
